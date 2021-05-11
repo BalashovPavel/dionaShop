@@ -1,0 +1,159 @@
+{% load static %}
+
+<div class="intro">
+    <div class="intro-container">
+        <div class="elements">
+            <div class="logo"></div>
+            <div class="element"></div>
+        </div>
+        <div class="img"></div>
+    </div>
+</div>
+
+<div class="main-page">
+    <div class="container">
+        <div class="new-page">
+            <div class="new-page-cont">
+                <div class="new-page-title">
+                    <div>
+                        <hr class="hr-line">
+                    </div>
+                    <p>Новинки</p>
+                    <div>
+                        <hr class="hr-line">
+                    </div>
+                </div>
+
+                <ul class="products clearfix">
+                    <li class="product-wrapper">
+                        <a href="" class="product">
+                            <div class="product-photo">
+                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">
+                            </div>
+                            <div class="product-title">Римская штора с карнизом Simone 4</div>
+                            <div class="product-price">от 4220 руб.</div>
+                        </a>
+                    </li>
+                    <li class="product-wrapper">
+                        <a href="" class="product">
+                            <div class="product-photo">
+                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">
+                            </div>
+                            <div class="product-title">Название большое длинное 1</div>
+                            <div class="product-price">от 4220 руб.</div>
+                        </a>
+                    </li>
+                    <li class="product-wrapper">
+                        <a href="" class="product">
+                            <div class="product-photo">
+                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">
+                            </div>
+                            <div class="product-title">Название большое длинное 1</div>
+                            <div class="product-price">от 4220 руб.</div>
+                        </a>
+                    </li>
+                    <li class="product-wrapper">
+                        <a href="" class="product">
+                            <div class="product-photo">
+                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">
+                            </div>
+                            <div class="product-title">Название большое длинное 1</div>
+                            <div class="product-price">от 4220 руб.</div>
+                        </a>
+                    </li>
+                </ul>
+
+
+                <div class="show-all">
+                    <a href="#">
+                        <button class="button-all" type="button">Посмотреть все</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-order">
+            <div class="new-page-cont">
+                <div class="new-page-title">
+                    <p>Как мы работаем?</p>
+                </div>
+                <div class="tabs">
+                    <div class="tabs__nav">
+                        <a class="tabs__link tabs__link_active" href="#content-1">1</a>
+                        <a class="tabs__link" href="#content-2">2</a>
+                        <a class="tabs__link" href="#content-3">3</a>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="tabs__pane tabs__pane_show" id="content-1">
+                            <div class="tab-img"></div>
+                            <div class="tab-texts">
+                                <div class="tab-title">Шаг первый</div>
+                                <div class="tab-text">Вы осталяете заявку на сайте, звоните или<br/>приходите к нам
+                                    в
+                                    салон.<br/><br/>
+                                    Мы вам перезванием, обговариваем<br/> детали по пошиву и выбору ткани.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs__pane" id="content-2">
+                            <div class="tab-img"></div>
+                            <div class="tab-text">2</div>
+                        </div>
+                        <div class="tabs__pane" id="content-3">
+                            <div class="tab-img"></div>
+                            <div class="tab-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-request">
+            <div class="request-cont">
+                <div class="request-img">
+                    <div class="slideshow-container">
+
+                        <div class="mySlides fade">
+                            <img src="{% static '' %}images/1.jpg">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="{% static '' %}images/2.jpeg">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="{% static '' %}images/3.jpg">
+                        </div>
+
+                        <a class="prev" onclick="plusSlides(-1)">❮</a>
+                        <a class="next" onclick="plusSlides(1)">❯</a>
+
+                        <div style="text-align:center" class="current_Slide">
+                            <span class="dot" onclick="currentSlide(1)"></span>
+                            <span class="dot" onclick="currentSlide(2)"></span>
+                            <span class="dot" onclick="currentSlide(3)"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-request">
+                    <form name="form" action="#" method="post" id="form_message">
+                        <h2>Оставьте заявку</h2>
+
+                        <div class="request_titles">Ваше имя:</div>
+                        <input class="input" name="name" type="text">
+
+                        <div class="request_titles">Ваш e-mail:</div>
+                        <input class="input" name="subjects" type="text">
+
+                        <div class="request_titles">Номер телефона:</div>
+                        <input class="input" name="email" type="text">
+
+                        <p><input id="submit" value="Отправить" type="submit"></p>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
