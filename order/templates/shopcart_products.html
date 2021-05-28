@@ -1,0 +1,120 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Корзина {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная/</a></li>
+                <li class="">Корзина</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="shopcart-wrapper">
+        <div class="shopcart">
+            <div class="shopcart-title">
+                <p>Корзина</p>
+            </div>
+            <div class="shopcart_table">
+                <div class="shopcart_product">
+                    <table class="shopcart_product_table">
+                        <thead>
+                        <tr>
+                            <th class="h-product">
+                                Товар
+                            </th>
+                            <th class="h-title">
+
+                            </th>
+                            <th class="h-price">
+                                Цена
+                            </th>
+                            <th class="h-count">
+                                Кол-во
+                            </th>
+                            <th class="h-total">
+                                Итого
+                            </th>
+                            <th class="h-delete">
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for rs in shopcart %}
+
+                            <tr>
+                                <td class="b-img_product">
+                                    <img src="{{ rs.product.image.url }}" alt="">
+                                </td>
+                                <td class="b-title">
+                                    <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product}}</a>
+                                    <ul>
+                                        <li><span>Ширина: 80</span></li>
+                                        <li><span>Высота: 200</span></li>
+                                        <li><span>Подкладка: Без подкладки</span></li>
+                                    </ul>
+                                </td>
+                                <td class="b-price">
+                                    <span id="price">{{ rs.product.price }} <i class="fa fa-rub" aria-hidden="true"></i></span>
+                                </td>
+                                <td class="b-count">
+                                    <input class="input" type="number" value="{{ rs.quantity }}">
+                                </td>
+                                <td class="b-total">
+                                    <span id="price">{{ rs.amount }} <i class="fa fa-rub" aria-hidden="true"></i></span>
+                                </td>
+                                <td class="b-delete">
+                                    <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Удалить! Вы уверены?')">
+                                        <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"
+                                                        aria-hidden="true"></i></button>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="block_final_price">
+                    <div class="block_final_price_title">
+                        <p>В корзине</p>
+                    </div>
+                    <div class="block_final_price_count">
+                        <p>{{ count }}</p>
+                        <p id="title_count">товара</p>
+                    </div>
+                    <div class="block_final_price_final">
+                        <span id="price">{{ total }} <i class="fa fa-rub" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="block_final_price_button">
+                        <a href="">
+                            <button type="button" class="btn_checkout">Перейти к оформлению</button>
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

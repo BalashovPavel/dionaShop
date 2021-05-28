@@ -25,42 +25,61 @@
                 </div>
 
                 <ul class="products clearfix">
+
+                    {% for prod in products_slider %}
+
+
                     <li class="product-wrapper">
-                        <a href="" class="product">
+                        <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
                             <div class="product-photo">
-                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">
+                                <img src="{{ prod.image.url }}" alt="">
                             </div>
-                            <div class="product-title">Римская штора с карнизом Simone 4</div>
-                            <div class="product-price">от 4220 руб.</div>
+                            <div class="product-title">{{ prod.title }}</div>
+                            <div class="product-price">{{ prod.price }} руб.</div>
                         </a>
                     </li>
-                    <li class="product-wrapper">
-                        <a href="" class="product">
-                            <div class="product-photo">
-                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">
-                            </div>
-                            <div class="product-title">Название большое длинное 1</div>
-                            <div class="product-price">от 4220 руб.</div>
-                        </a>
-                    </li>
-                    <li class="product-wrapper">
-                        <a href="" class="product">
-                            <div class="product-photo">
-                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">
-                            </div>
-                            <div class="product-title">Название большое длинное 1</div>
-                            <div class="product-price">от 4220 руб.</div>
-                        </a>
-                    </li>
-                    <li class="product-wrapper">
-                        <a href="" class="product">
-                            <div class="product-photo">
-                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">
-                            </div>
-                            <div class="product-title">Название большое длинное 1</div>
-                            <div class="product-price">от 4220 руб.</div>
-                        </a>
-                    </li>
+
+
+                    {% endfor %}
+
+{#                    <li class="product-wrapper">#}
+{#                        <a href="" class="product">#}
+{#                            <div class="product-photo">#}
+{#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+{#                            </div>#}
+{#                            <div class="product-title">Римская штора с карнизом Simone 4</div>#}
+{#                            <div class="product-price">от 4220 руб.</div>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="product-wrapper">#}
+{#                        <a href="" class="product">#}
+{#                            <div class="product-photo">#}
+{#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+{#                            </div>#}
+{#                            <div class="product-title">Название большое длинное 1</div>#}
+{#                            <div class="product-price">от 4220 руб.</div>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="product-wrapper">#}
+{#                        <a href="" class="product">#}
+{#                            <div class="product-photo">#}
+{#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+{#                            </div>#}
+{#                            <div class="product-title">Название большое длинное 1</div>#}
+{#                            <div class="product-price">от 4220 руб.</div>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="product-wrapper">#}
+{#                        <a href="" class="product">#}
+{#                            <div class="product-photo">#}
+{#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+{#                            </div>#}
+{#                            <div class="product-title">Название большое длинное 1</div>#}
+{#                            <div class="product-price">от 4220 руб.</div>#}
+{#                        </a>#}
+{#                    </li>#}
+
+
                 </ul>
 
 
@@ -136,23 +155,34 @@
 
                 </div>
                 <div class="form-request">
-                    <form name="form" action="#" method="post" id="form_message">
+
+                    <form name="form" action="#" id="form_message" method="post">
+
                         <h2>Оставьте заявку</h2>
 
-                        <div class="request_titles">Ваше имя:</div>
+
+                        {% comment %}<div class="request_titles">Ваше имя:</div>
                         <input class="input" name="name" type="text">
 
                         <div class="request_titles">Ваш e-mail:</div>
                         <input class="input" name="subjects" type="text">
 
                         <div class="request_titles">Номер телефона:</div>
-                        <input class="input" name="email" type="text">
-
+                        <input class="input" name="email" type="text">{% endcomment %}
+                        {% csrf_token %}
+                        {{ form.as_table }}
                         <p><input id="submit" value="Отправить" type="submit"></p>
 
                     </form>
 
                 </div>
+                {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags}}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
             </div>
         </div>
     </div>

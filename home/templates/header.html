@@ -3,25 +3,43 @@
 <header class="header" id="myHeader">
     <nav class="top-menu">
         <ul class="menu-main">
-            <li><a href="index.html">Главная</a></li>
+            <li><a href="/home">Главная</a></li>
             <li id="listDropdown" class="dropdown" onclick="myFunctionDrop()">
                 <a type="btn" class="dropbtn">Магазин<img src="{% static '' %}images/down-arrow.svg" alt=""></a>
                 <div id="myDropdown" class="dropdown-content">
                     <a href="#">Римские шторы</a>
                     <a href="#">Ткани</a>
-                    <a href="#">Карнизы</a>
+                    <a href="">Карнизы</a>
                     <a href="#">Аксессуары</a>
-                    <a href="catalog.html">Все</a>
+                    <a href="/all_products">Все</a>
                 </div>
             </li>
-            <li><a href="">Услуги</a></li>
-            <li><a href="">О нас</a></li>
-            <li><a href="">Доставка</a></li>
+            <li><a href="/services">Услуги</a></li>
+            <li><a href="/about">О нас</a></li>
+            <li><a href="/delivery">Доставка</a></li>
+
+            <script>
+                    $(function() {
+                        $("#search").autocomplete({
+                            source: "/search_auto/",
+                            select: function (event, ui) { //item selected
+                                AutoCompleteSelectHandler(event, ui)
+                            },
+                            minLength: 2,
+                        });
+                    });
+                    function AutoCompleteSelectHandler(event, ui)
+                    {
+                        var selectedObj = ui.item;
+                    }
+                </script>
+
             <li id="nav_search" class="search-container">
 
-                <form class="form-search" action="/search/" target="_blank">
-                    <input type="hidden" name="searchid" value="808327">
-                    <input type="text" name="search" required placeholder="Поиск">
+                <form class="form-search" action="/search/" method="post">
+                    {% csrf_token %}
+{#                    <input type="hidden" name="searchid" value="808327">#}
+                    <input type="text" id="search" name="search" required placeholder="Поиск">
                     <input type="image" src="{% static '' %}images/search.svg"/>
                 </form>
             </li>
@@ -29,7 +47,7 @@
                 <a href="">Войти</a>
             </li>
             <li>
-                <a href="">
+                <a href="/shopcart/">
                     <div class="menu-href">
                         <div>Корзина</div>
                         <div id="numb"></div>
@@ -48,9 +66,10 @@
         <ul class="menu-nav">
             <li id="nav_search" class="search-container">
 
-                <form class="form-search" action="/search/" target="_blank">
+                <form class="form-search" action="/search/" target="_blank" method="post">
+                    {% csrf_token %}
                     <input type="hidden" name="searchid" value="808327">
-                    <input type="text" name="search" required placeholder="Поиск">
+                    <input type="text" id="search" name="search" required placeholder="Поиск">
                     <input type="image" src="{% static '' %}images/search.svg"/>
                 </form>
             </li>

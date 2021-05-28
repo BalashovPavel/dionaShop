@@ -1,0 +1,332 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} {{ product.title }} {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная/</a></li>
+                <li>
+                    <a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}/</a>
+                </li>
+                <li class="">{{ product.title }}</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card-wrapper">
+
+        <div class="card">
+            <div class="product_title" id="title2" style="display: none;">
+                <p>{{ product.title }}</p>
+            </div>
+
+            <div class="porduct_content">
+
+                <div class="product_imgs">
+
+                    <div class="img-display">
+                        <a>
+                            <button type="button" id="prev_card">❮</button>
+                        </a>
+                        <div class="img-showcase">
+                            <img src="{{ product.image.url }}" id="featured" alt="shoe image">
+                        </div>
+                        <a>
+                            <button type="button" id="next_card">❯</button>
+                        </a>
+                    </div>
+                    <div class="img-select">
+                        <div class="img-item">
+                            <img class="thumbnail active" src="{{ product.image.url }}" alt="shoe image">
+                        </div>
+
+                        {% for rs in images %}
+                            <div class="img-item">
+                                <img class="thumbnail " src="{{ rs.image.url }}" alt="shoe image">
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="product_descriptions">
+                    <div class="product_title" id="title1">
+                        <p>{{ product.title }}</p>
+                    </div>
+                    <div class="parameters">
+
+                        <div class="min_description">{{ product.description }}
+                        </div>
+
+                        <div class="parameter" id="width">
+                            <div class="param_title">
+                                <p>Ширина:</p>
+                            </div>
+                            <div class="choices">
+                                <div class="results">
+                                    <input type="number" value="50" min="50" max="240" id="result_width"/>
+                                </div>
+                                <div class="choice">
+                                    <div class="limit">
+                                        <p>50</p>
+                                    </div>
+                                    <button class="bt_minus" id="minus_width">
+                                        <svg viewBox="0 0 24 24">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class='range-container'>
+                                        <input id='range_width' type='range' min='50' max='240' step='1' value="50"/>
+                                    </div>
+
+                                    <button class="bt_plus" id="plus_width">
+                                        <svg viewBox="0 0 24 24">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+
+                                    <div class="limit">
+                                        <p>240</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="parameter" id="height">
+                            <div class="param_title">
+                                <p>Высота:</p>
+                            </div>
+                            <div class="choices">
+                                <div class="results">
+                                    <input type="number" value="120" min="120" max="300" id="result_height"/>
+                                </div>
+                                <div class="choice">
+                                    <div class="limit">
+                                        <p>120</p>
+                                    </div>
+
+                                    <button class="bt_minus" id="minus_height">
+                                        <svg viewBox="0 0 24 24">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+
+                                    <div class='range-container'>
+                                        <input id='range_height' type='range' min='120' max='300' step='1'
+                                               value="120"/>
+                                    </div>
+
+                                    <button class="bt_plus" id="plus_height">
+                                        <svg viewBox="0 0 24 24">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+
+                                    <div class="limit">
+                                        <p>300</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- подкладка -->
+                        <div class="parameter" id="lining">
+                            <div class="param_title">
+                                <p>Подкладка:</p>
+                            </div>
+                            <div class="select_div">
+
+                                <select id="selectvalue">
+                                    <option class="select-item">Без подкладки</option>
+                                    <option class="select-item">С подкладочной тканью</option>
+                                    <option class="select-item">С тканью BlackOut</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="price"><p id="price">{{ product.price }}</p>
+                        <p>руб.</p></div>
+                    <div class="show_add">
+
+                        <form action="/order/addtoshopcart/{{ product.id }}" method="post">
+                            {% csrf_token %}
+                            <div class="qty-input" style="display: flex">
+                                <p class="qty-text">Кол-во</p>
+                                <input name="quantity" class="input" type="number" min="1" value="1">
+                            </div>
+                            <a href="">
+                                <button type="submit" class="btn_add"><i class="fa fa-cart-plus" aria-hidden="true"></i>Добавить
+                                    в корзину
+                                </button>
+                            </a>
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="product_tab">
+
+                <div class="tabs">
+                    <div class="tabs__nav">
+                        <a class="tabs__link tabs__link_active" href="#content-1">Описание</a>
+                        <a class="tabs__link" href="#content-2">Доставка</a>
+                        <a class="tabs__link" href="#content-3">Возврат</a>
+                        <a class="tabs__link" href="#content-4">Отзывы</a>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="tabs__pane tabs__pane_show" id="content-1">
+                            <div class="tab-texts">
+                                <div class="tab-title">Описание</div>
+                                <div class="tab-text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, molestiae obcaecati
+                                    doloremque alias fuga suscipit libero corporis quasi perferendis eligendi aliquid
+                                    perspiciatis fugit dolore tempora dolores, consectetur consequuntur laborum
+                                    excepturi optio nobis illo id laudantium soluta aliquam? Doloribus repudiandae
+                                    adipisci amet maiores dolore ipsum expedita eligendi. Voluptatem, delectus? Officia
+                                    velit unde maiores maxime omnis corporis labore dolorum numquam nam quam eum harum
+                                    rerum odio facilis aliquam asperiores vel aperiam ipsum error ullam, consequatur
+                                    inventore quaerat. Ipsa eius ipsum dicta reprehenderit quo odio omnis minima,
+                                    ratione velit aspernatur, aut adipisci laboriosam voluptatum commodi? Possimus
+                                    labore non accusamus alias quo animi doloribus!
+                                    {{ product.detail|safe }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs__pane" id="content-2">
+                            <div class="tab-texts">
+                                <div class="tab-title">Доставка</div>
+                                <div class="tab-text">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem voluptate
+                                    dolorem maiores suscipit porro ab, at delectus cumque libero natus quo culpa
+                                    incidunt dolor ipsa necessitatibus commodi, ipsam asperiores, molestias ex
+                                    consectetur? Enim animi totam maxime, non numquam voluptatum possimus a veniam error
+                                    natus, consequuntur, sed amet sit dolorum nemo!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs__pane" id="content-3">
+                            <div class="tab-texts">
+                                <div class="tab-title">Возврат</div>
+                                <div class="tab-text">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem voluptate
+                                    dolorem maiores suscipit porro ab, at delectus cumque libero natus quo culpa
+                                    incidunt dolor ipsa necessitatibus commodi, ipsam asperiores, molestias ex
+                                    consectetur? Enim animi totam maxime, non numquam voluptatum possimus a veniam error
+                                    natus, consequuntur, sed amet sit dolorum nemo!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs__pane" id="content-4">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="product-reviews">
+                                        {% for rs in comments %}
+                                            <div class="single-review">
+                                                <div class="review-heading">
+                                                    <div><a href="#"><i
+                                                            class="fa fa-user-o"></i>{{ rs.user.first_name }}</a></div>
+                                                    <div class="clock"><a href="#"><i
+                                                            class="fa fa-clock-o"></i>{{ rs.create_at|date:"d-m-Y   / H:i" }}
+                                                    </a>
+                                                    </div>
+
+                                                    <div class="review-rating pull-right">
+                                                        <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                                        <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                                        <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                                        <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                                        <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                                                    </div>
+
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>{{ rs.comment }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                        <ul class="reviews-pages">
+                                            <li class="active">1</li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tab-title">Оставьте ваш отзыв</div>
+                                    <p>Ваш электронный адрес не будет опубликован.</p>
+                                    <form class="review-form" action="/product/addcomment/{{ product.id }}"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input name="subject" class="input" type="text" placeholder="Имя"
+                                                   title="Jopa"/>
+                                        </div>
+                                        {#                                        <div class="form-group">#}
+                                        {#                                            <input class="input" type="email" placeholder="Email"/>#}
+                                        {#                                        </div>#}
+                                        <div class="form-group">
+                                            <textarea name="comment" class="input" placeholder="Отзыв"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-rating">
+                                                <strong class="tab-title">Оценка:</strong>
+                                                <div class="stars">
+                                                    <input type="radio" id="star5" name="rate" value="5"/><label
+                                                        for="star5" class="fa fa-star-o" aria-hidden="true"></label>
+                                                    <input type="radio" id="star4" name="rate" value="4"/><label
+                                                        for="star4" class="fa fa-star-o" aria-hidden="true"></label>
+                                                    <input type="radio" id="star3" name="rate" value="3"/><label
+                                                        for="star3" class="fa fa-star-o" aria-hidden="true"></label>
+                                                    <input type="radio" id="star2" name="rate" value="2"/><label
+                                                        for="star2" class="fa fa-star-o" aria-hidden="true"></label>
+                                                    <input type="radio" id="star1" name="rate" value="1"/><label
+                                                        for="star1" class="fa fa-star-o" aria-hidden="true"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if user.id is not None %}
+                                            <button class="primary-btn">Отправить</button>
+                                        {% else %}
+                                            <p>Для добавления отзыва, нужно войти в свой аккаунт</p>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

@@ -10,6 +10,9 @@
     {% load static %}
 
     <link rel="stylesheet" href="{% static '' %}css/style.css">
+    <link rel="stylesheet" href="{% static '' %}css/style_catalog.css">
+    <link rel="stylesheet" href="{% static '' %}css/style_detail.css">
+    <link rel="stylesheet" href="{% static '' %}css/shopcart_products.css">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
@@ -18,15 +21,23 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Serif+Caption&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- jQuery !-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- jQuery UI !-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
 </head>
 <body>
 
-    {% block header %} {% endblock header %} <!-- подсасывание из header.html -->
+{% block header %} {% endblock header %} <!-- подсасывание из header.html -->
 
 {#    {% block slider %} {% endblock slider %} <!-- подсасывание из slider.html -->#}
-    {% block body %} {% endblock body %} <!-- подсасывание из body.html -->
+{% block body %} {% endblock body %} <!-- подсасывание из body.html -->
 
-    {% block footer %} {% endblock footer %} <!-- подсасывание из footer.html -->
+{% block footer %} {% endblock footer %} <!-- подсасывание из footer.html -->
 
 </body>
 </html>

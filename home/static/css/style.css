@@ -1066,3 +1066,8 @@ footer a:hover {
 }
 
 /* Footer end */
+
+
+.breadcrumb{
+  list-style: none;
+}

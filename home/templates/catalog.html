@@ -1,0 +1,230 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} {{ setting.title }} {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+
+    <div class="catalog">
+        <div class="sub_catalog">
+            <div class="logo_catalog"></div>
+            <div class="filter_catalog">
+                {% load mptt_tags %}
+                <ul class="list_filter">
+
+                    {% recursetree category %}
+                        <li>
+                            {% if node.is_leaf_node %}
+                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
+                            {% else %}
+                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
+                            {% endif %}
+                            {% if not node.is_leaf_node %}
+                                <ul class="children">
+                                    {{ children }}
+                                </ul>
+                            {% endif %}
+                        </li>
+                        {#                        <li><a href="">Ткани</a></li>#}
+                        {#                        <li><a href="">Карнизы</a></li>#}
+                        {#                        <li><a href="">Аксессуары</a></li>#}
+                        <!-- <li><a href=""></a></li> -->
+                    {% endrecursetree %}
+
+
+                    <div class="checkbox">
+                        <div class="multi_filters">
+
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Белый цвет</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="white" id="white" onchange="fun1()">
+                                </span>
+                                </label>
+                            </div>
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Чёрный цвет</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="" id="black" onchange="fun1()">
+                                </span>
+                                </label>
+                            </div>
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Зелённый цвет</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="" id="green" onchange="fun1()">
+                                </span>
+                                </label>
+                            </div>
+
+
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Турция</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="" id="turkey" onchange="fun2()">
+                                </span>
+                                </label>
+                            </div>
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Китай</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="" id="china" onchange="fun2()">
+                                </span>
+                                </label>
+                            </div>
+                            <div class="filter">
+                                <label for="">
+                                <span class="">
+                                    <span>Россия</span>
+                                </span>
+                                    <span>
+                                    <input type="checkbox" name="" id="russia" onchange="fun2()">
+                                </span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="main_catalog">
+            <div class="title_catalog">Каталог</div>
+            <div class="cart_catalog">
+
+
+                <ul class="products clearfix">
+                    {% for prod in product %}
+
+
+                        <li class="product-wrapper true {{ prod.variant }} tr_ctr {{ prod.country }}">
+                            <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
+                                <div class="product-photo">
+                                    <img src="{{ prod.image.url }}" alt="">
+                                </div>
+                                <div class="product-title">{{ prod.title }}</div>
+                                <div class="product-price">{{ prod.price }} руб.</div>
+                            </a>
+                        </li>
+
+
+                    {% endfor %}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Римская штора с карнизом Simone 4</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->
