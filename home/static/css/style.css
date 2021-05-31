@@ -150,8 +150,36 @@ header {
 
 /* Выпадающее меню конец */
 
+.menu-main a .fa{
+  padding-right: 3px;
+  font-weight: 800;
+}
+
+.menu-href{
+  position: relative;
+}
+
+.menu-href i{
+  padding-left: 2px;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: normal;
+}
+
 #numb {
   position: absolute;
+  align-self: center;
+  top: -4px;
+  right: 1px;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: normal;
+  width: 14px;
+  height: 14px;
+  border: solid 1px rgb(251, 251, 251);
+  border-radius: 20px;
+  background: rgb(251, 251, 251);
+  box-shadow: 0px 0px 4px .1px rgba(0, 0, 0, 0.452);
 }
 
 /* Бургер начало*/

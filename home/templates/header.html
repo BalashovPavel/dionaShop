@@ -19,38 +19,46 @@
             <li><a href="/delivery">Доставка</a></li>
 
             <script>
-                    $(function() {
-                        $("#search").autocomplete({
-                            source: "/search_auto/",
-                            select: function (event, ui) { //item selected
-                                AutoCompleteSelectHandler(event, ui)
-                            },
-                            minLength: 2,
-                        });
+                $(function () {
+                    $("#search").autocomplete({
+                        source: "/search_auto/",
+                        select: function (event, ui) { //item selected
+                            AutoCompleteSelectHandler(event, ui)
+                        },
+                        minLength: 2,
                     });
-                    function AutoCompleteSelectHandler(event, ui)
-                    {
-                        var selectedObj = ui.item;
-                    }
-                </script>
+                });
+
+                function AutoCompleteSelectHandler(event, ui) {
+                    var selectedObj = ui.item;
+                }
+            </script>
 
             <li id="nav_search" class="search-container">
 
                 <form class="form-search" action="/search/" method="post">
                     {% csrf_token %}
-{#                    <input type="hidden" name="searchid" value="808327">#}
+                    {#                    <input type="hidden" name="searchid" value="808327">#}
                     <input type="text" id="search" name="search" required placeholder="Поиск">
                     <input type="image" src="{% static '' %}images/search.svg"/>
                 </form>
             </li>
-            <li>
-                <a href="">Войти</a>
-            </li>
+
+            {% if user.id is not None %}
+                <li><a href=""><i class="fa fa-user-o" aria-hidden="true"></i>{{ user.first_name }}</a></li>
+                <li><a href="/logout">Выйти</a></li>
+            {% else %}
+                <li><a href="/login"><i class="fa fa-user-o" aria-hidden="true"></i>Войти</a></li>
+                <li><a href="/signup"><i class="fa fa-user-o" aria-hidden="true"></i>Регистрация</a></li>
+            {% endif %}
+
+
+
             <li>
                 <a href="/shopcart/">
                     <div class="menu-href">
-                        <div>Корзина</div>
-                        <div id="numb"></div>
+                        <div>Корзина<i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+                        <div id="numb">{{ shopcart.count }}</div>
                     </div>
                 </a>
             </li>

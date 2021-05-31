@@ -1,0 +1,69 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Авторизация {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная/</a></li>
+                <li class="">Авторизация</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="login-wrapper">
+        <div class="login">
+            <div class="product_tab">
+
+                <div class="tabs">
+                    <div class="tabs__nav">
+                        <a class="tabs__link tabs__link_active" href="#content-1">Вход</a>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="tabs__content">
+                        <div class="tabs__pane tabs__pane_show" id="content-1">
+                            <form class="tab-texts" action=""  method="post">
+                                {% csrf_token %}
+                                <div class="tab-title">Вход</div>
+                                <div class="tab-text">
+                                    <div class="login-input">
+                                        <label for="">Логин</label>
+                                        <div><input type="text" name="username" class="input" required></div>
+                                    </div>
+                                    <div class="login-input">
+                                        <label for="">Пароль</label>
+                                        <div><input type="password" name="password" class="input"
+                                                    autocomplete="current-password" required></div>
+                                    </div>
+                                    <p>
+                                        <input id="submit" value="Войти" type="submit">
+                                    </p>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

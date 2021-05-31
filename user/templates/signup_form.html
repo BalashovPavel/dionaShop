@@ -1,0 +1,101 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Регистрация {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная/</a></li>
+                <li class="">Регистрация</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="login-wrapper">
+        <div class="login">
+            <div class="product_tab">
+
+                <div class="tabs">
+                    <div class="tabs__nav">
+                        <a class="tabs__link tabs__link_active" href="#content-1">Регистрация</a>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="tabs__content">
+                        <div class="tabs__pane tabs__pane_show" id="content-1">
+
+                            <form method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="login-input">
+                                        {{ field.label_tag }}<br>
+                                        {{ field }}
+                                        {% if field.help_text %}
+                                            <small style="color: grey">{{ field.help_text }}</small>
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                            <p style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                                <p>
+                                    <input id="submit" value="Зарегистрироваться" type="submit">
+                                </p>
+                            </form>
+                            {#                                <div class="tab-title">Регистрация</div>#}
+                            {#                                <div class="tab-text">#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Логин</label>#}
+                            {#                                        <div><input type="text" name="username" class="input" required></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Email</label>#}
+                            {#                                        <div><input type="email" name="email" class="input" autocomplete="current-email" required></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Имя</label>#}
+                            {#                                        <div><input type="text" name="first_name" class="input" required></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Фамилия</label>#}
+                            {#                                        <div><input type="text" name="last_name" class="input" required></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Пароль</label>#}
+                            {#                                        <div><input type="password" name="password" class="input" required#}
+                            {#                                                    autocomplete="new-password"></div>#}
+                            {#                                    </div>#}
+                            {#                                    <div class="login-input">#}
+                            {#                                        <label for="">Подтвердите пароль</label>#}
+                            {#                                        <div><input type="password" name="password" class="input" required></div>#}
+                            {#                                    </div>#}
+                            {#                                <p>#}
+                            {#                                    <input id="submit" value="Зарегистрироваться" type="submit">#}
+                            {#                                </p>#}
+
+                            {#                                </div>#}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

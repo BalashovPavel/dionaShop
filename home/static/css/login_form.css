@@ -1,0 +1,42 @@
+.login-wrapper {
+    width: 100%;
+}
+
+.login {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.login .tabs {
+    width: 90%;
+}
+
+.tabs__nav{
+    padding-left: 24px;
+}
+
+.tabs__nav span{
+    align-self: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 100;
+    color: rgba(0, 0, 0, 0.295);
+}
+
+.login .tabs__link{
+    flex-shrink: 1;
+    flex-grow: 0;
+    padding: 8px 18px;
+}
+
+.tabs__content{
+    padding: 24px 16px 16px;
+}
+
+.tab-texts{
+
+}
+
+.tab-title{
+    font-size: 22px;
+}
