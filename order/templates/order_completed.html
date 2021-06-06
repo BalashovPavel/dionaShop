@@ -1,0 +1,39 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Заказ принят {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="shopcart-wrapper">
+        <div class="shopcart">
+            <div class="shopcart-title">
+                <p>Заказ принят</p>
+            </div>
+            <div class="shopcart-title2" style="font-size: 24px">
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+                <p>Ваш заказ принят  </p>
+                <p>Код заказа: {{ ordercode }}</p>
+                <hr>
+                <p> Спасибо </p>
+                <p>  </p>
+                <p>  </p>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

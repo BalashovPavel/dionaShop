@@ -37,7 +37,7 @@ urlpatterns = [
                   path('delivery/', views.delivery, name='delivery'),
                   # path('contact/', views.contact, name='contact'),
                   path('search/', views.search, name='search'),
-                  path('search_auto/', views.search_auto, name='search_auto'),
+                  # path('search_auto/', views.search_auto, name='search_auto'),
                   path('all_products/', views.all_products, name='all_products'),
                   path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
                   path('product/<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
@@ -45,5 +45,6 @@ urlpatterns = [
                   path('login/', UserViews.login_form, name='login_form'),
                   path('logout/', UserViews.logout_func, name='logout_func'),
                   path('signup/', UserViews.signup_form, name='signup_form'),
+                  path('faq/', views.faq, name='faq'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

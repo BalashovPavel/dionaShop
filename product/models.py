@@ -2,6 +2,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 
 from django.db import models
+from django.db.models import Avg, Count
 from django.forms import ModelForm
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -91,6 +92,20 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
+
+    def avarege_review(self):
+        reviews = Comment.objects.filter(product=self, status=True).aggregate(avarage=Avg('rate'))
+        avg = 0
+        if reviews["avarage"] is not None:
+            avg = float(reviews["avarage"])
+        return avg
+
+    def count_review(self):
+        reviews = Comment.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        cnt_rev = 0
+        if reviews["count"] is not None:
+            cnt_rev = int(reviews["count"])
+        return cnt_rev
 
 
 class Images(models.Model):

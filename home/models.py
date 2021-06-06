@@ -7,25 +7,25 @@ from django.forms import ModelForm, TextInput, Textarea
 
 class Setting(models.Model):
     STATUS = (
-        ('True', 'Виден'),
-        ('False', 'Не виден'),
+        ('Виден', 'Виден'),
+        ('Не виден', 'Не виден'),
     )
     title = models.CharField(max_length=150)
-    keywords = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    # keywords = models.CharField(max_length=255)
+    # description = models.CharField(max_length=255)
     company = models.CharField(max_length=50)
     address = models.CharField(blank=True, max_length=100)
     phone = models.CharField(blank=True, max_length=15)
-    fax = models.CharField(blank=True, max_length=15)
+    # fax = models.CharField(blank=True, max_length=15)
     email = models.CharField(blank=True, max_length=50)
-    smtp_server = models.CharField(blank=True, max_length=50)
-    smtp_email = models.CharField(blank=True, max_length=50)
-    smtp_password = models.CharField(blank=True, max_length=10)
-    smtp_port = models.CharField(blank=True, max_length=5)
-    icon = models.ImageField(blank=True, upload_to='images/')
-    facebook = models.CharField(blank=True, max_length=50)
+    # smtp_server = models.CharField(blank=True, max_length=50)
+    # smtp_email = models.CharField(blank=True, max_length=50)
+    # smtp_password = models.CharField(blank=True, max_length=10)
+    # smtp_port = models.CharField(blank=True, max_length=5)
+    # icon = models.ImageField(blank=True, upload_to='images/')
+    # facebook = models.CharField(blank=True, max_length=50)
     instagram = models.CharField(blank=True, max_length=50)
-    twitter = models.CharField(blank=True, max_length=50)
+    # twitter = models.CharField(blank=True, max_length=50)
     youtube = models.CharField(blank=True, max_length=50)
     about_us = RichTextUploadingField(blank=True)
     contact = RichTextUploadingField(blank=True)
@@ -68,3 +68,19 @@ class ContactForm(ModelForm):
             'email': TextInput(attrs={'class': 'input', 'placeholder': 'Email Address'}),
             'message': Textarea(attrs={'class': 'input', 'placeholder': 'Your Message', 'rows': '5'}),
         }
+
+
+class FAQ(models.Model):
+    STATUS = (
+        ('True', 'True'),
+        ('False', 'False'),
+    )
+    ordernumber = models.IntegerField()
+    question = models.CharField(max_length=200)
+    answer = RichTextUploadingField()
+    status=models.CharField(max_length=10, choices=STATUS)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question

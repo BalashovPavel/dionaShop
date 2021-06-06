@@ -69,6 +69,30 @@
                     <div class="product_title" id="title1">
                         <p>{{ product.title }}</p>
                     </div>
+
+                    <div class="review-rating pull-right" id="avarege_review">
+                        <i class="fa fa-star{% if product.avarege_review < 1 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if product.avarege_review < 1.6 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if product.avarege_review < 2.6 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if product.avarege_review < 3.6 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if product.avarege_review < 4.6 %}-o empty{% endif %}"></i>
+                        <span> ({{ product.avarege_review | floatformat }})</span>
+                        <span></span>
+                        <span>{{ product.count_review }}
+                            {% if product.count_review == 1 %}
+                                отзыв
+                            {% endif %}
+                            {% if product.count_review == 0 %}
+                                отзывов
+                            {% endif %}
+                            {% if product.count_review > 1 %}
+                                {% if product.count_review < 5 %}отзыва
+                                {% else %}отзывов
+                                {% endif %}
+                            {% endif %}
+                        </span>
+                    </div>
+
                     <div class="parameters">
 
                         <div class="min_description">{{ product.description }}
@@ -191,9 +215,10 @@
                 <div class="tabs">
                     <div class="tabs__nav">
                         <a class="tabs__link tabs__link_active" href="#content-1">Описание</a>
+                        <a class="tabs__link" href="#content-4">Отзывы({{ product.count_review }})</a>
                         <a class="tabs__link" href="#content-2">Доставка</a>
                         <a class="tabs__link" href="#content-3">Возврат</a>
-                        <a class="tabs__link" href="#content-4">Отзывы</a>
+
                     </div>
                     <div class="tabs__content">
                         <div class="tabs__pane tabs__pane_show" id="content-1">

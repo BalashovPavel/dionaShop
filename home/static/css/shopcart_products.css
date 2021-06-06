@@ -148,6 +148,7 @@ tbody .fa{
     top: 47px;
     padding: 20px 25px;
     font-size: 24px;
+    height: fit-content;
 }
 
 .block_final_price_title{
@@ -189,4 +190,10 @@ tbody .fa{
     background: black;
     color: white;
     transition: .3s all;
+}
+
+
+
+.shopcart_form{
+    margin-top: 20px;
 }

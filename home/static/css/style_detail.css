@@ -430,6 +430,14 @@ option {
     right: 0px;
 }
 
+.product_descriptions .pull-right {
+    right: auto;
+}
+
+.product_descriptions .pull-right .fa:before {
+    font-size: 20px;
+}
+
 .pull-right i {
     margin: 0px;
     padding: 0px;

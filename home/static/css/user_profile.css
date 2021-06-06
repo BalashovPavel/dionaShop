@@ -1,0 +1,100 @@
+.section {
+    max-width: 100vw;
+    margin-top: 100px;
+}
+
+.user_profil-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.user_profil-wrapper ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user_profil-wrapper a {
+    text-decoration: none;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user_panel {
+    width: 20%;
+}
+
+.panel-wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.user_title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.user-aside li {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.185);
+    padding: 3px;
+}
+
+.user-aside a {
+    color: #000000e1;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+
+.user_profil {
+    width: 80%;
+}
+
+.profil_wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.profil_wrapper table {
+    width: 100%;
+}
+
+.user_profile-text {
+    text-align: start;
+}
+
+.primary-btn input {
+    cursor: pointer;
+    border: solid 2px rgba(0, 0, 0, 0.705);
+    background-color: rgb(250, 250, 250);
+    width: 180px;
+    height: 36px;
+    font-size: 15px;
+    font-weight: 400;
+    margin-right: 10px;
+}
+
+table .fa-user {
+    height: 120px;
+    width: 120px;
+    padding: 10px;
+    background: #898989;
+    color: #f1f1f1;
+    border-radius: 100%;
+}
+
+.text-left {
+    text-align: start;
+    padding: 10px 0;
+    font-size: 18px
+}
+
+
+.shopcart_product_table .b-comment {
+    width: 30%;
+    text-align: start;
+    padding: 6px 10px;
+}

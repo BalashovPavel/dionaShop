@@ -29,90 +29,155 @@
     <div class="shopcart-wrapper">
         <div class="shopcart">
             <div class="shopcart-title">
-                <p>Корзина</p>
+                <p>Оформление заказа</p>
             </div>
-            <div class="shopcart_table">
-                <div class="shopcart_product">
-                    <table class="shopcart_product_table">
-                        <thead>
-                        <tr>
-                            <th class="h-product">
-                                Товар
-                            </th>
-                            <th class="h-title">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="shopcart_table">
 
-                            </th>
-                            <th class="h-price">
-                                Цена
-                            </th>
-                            <th class="h-count">
-                                Кол-во
-                            </th>
-                            <th class="h-total">
-                                Итого
-                            </th>
-                            <th class="h-delete">
+                    <div class="shopcart_product">
 
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                        <div class="order_form">
+                            <p><label for="id_first_name">Имя:</label>
+                                <input type="text" name="first_name" value="{{ user.first_name }}" class="input"
+                                       maxlength="10" required id="id_first_name">
+                            </p>
+                            <p><label for="id_last_name">Фамилия:</label>
+                                <input type="text" name="last_name" value="{{ user.last_name }}" class="input"
+                                       maxlength="10" required id="id_last_name">
+                            </p>
+                            <p><label for="id_city">Город:</label>
+                                <input type="text" name="city" class="input" id="id_city" value="{{ profile.city }}">
+                            </p>
+                            <p><label for="id_address">Адрес:</label>
+                                <input type="text" name="address" value="{{ profile.address }}" class="input"
+                                       maxlength="150" id="id_address">
+                            </p>
+                            <p><label for="id_email">Email:</label>
+                                <input type="text" name="email" value="{{ profile.email }}" class="input"
+                                       maxlength="100"
+                                       id="id_email">
+                            </p>
+                            <p><label for="id_phone">Телефон:</label>
+                                <input type="text" name="phone" value="{{ profile.phone }}" class="input" maxlength="20"
+                                       id="id_phone">
+                            </p>
 
-                        {% for rs in shopcart %}
+                            <p><label for="id_first_name">Country :</label>
+                                <input type="text" name="country" class="input" id="id_country"
+                                       value="{{ profile.country }}">
+                            </p>
+                            <div class="pull-right">
+                                <button type="submit" class="primary-btn">Complete Order</button>
+                            </div>
+                        </div>
 
-                            <tr>
-                                <td class="b-img_product">
-                                    <img src="{{ rs.product.image.url }}" alt="">
-                                </td>
-                                <td class="b-title">
-                                    <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product}}</a>
-                                    <ul>
-                                        <li><span>Ширина: 80</span></li>
-                                        <li><span>Высота: 200</span></li>
-                                        <li><span>Подкладка: Без подкладки</span></li>
-                                    </ul>
-                                </td>
-                                <td class="b-price">
-                                    <span id="price">{{ rs.product.price }} <i class="fa fa-rub" aria-hidden="true"></i></span>
-                                </td>
-                                <td class="b-count">
-                                    <input class="input" type="number" value="{{ rs.quantity }}">
-                                </td>
-                                <td class="b-total">
-                                    <span id="price">{{ rs.amount }} <i class="fa fa-rub" aria-hidden="true"></i></span>
-                                </td>
-                                <td class="b-delete">
-                                    <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Удалить! Вы уверены?')">
-                                        <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"
-                                                        aria-hidden="true"></i></button>
-                                    </a>
-                                </td>
-                            </tr>
+                        <div class="shopcart_form">
+                            <div class="shopcart-title2" style="font-size: 24px">
+                                <p>Список товаров</p>
+                            </div>
+                            <table class="shopcart_product_table">
+                                <thead>
+                                <tr>
+                                    <th class="h-product">
+                                        Товар
+                                    </th>
+                                    <th class="h-title">
 
-                        {% endfor %}
+                                    </th>
+                                    <th class="h-price">
+                                        Цена
+                                    </th>
+                                    <th class="h-count">
+                                        Кол-во
+                                    </th>
+                                    <th class="h-total">
+                                        Итого
+                                    </th>
+                                    <th class="h-delete">
 
-                        </tbody>
-                    </table>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for rs in shopcart %}
+
+                                    <tr>
+                                        <td class="b-img_product">
+                                            <img src="{{ rs.product.image.url }}" alt="">
+                                        </td>
+                                        <td class="b-title">
+                                            <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product }}</a>
+                                            <ul>
+                                                <li><span>Ширина: 80</span></li>
+                                                <li><span>Высота: 200</span></li>
+                                                <li><span>Подкладка: Без подкладки</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="b-price">
+                                        <span id="price">{{ rs.product.price }} <i class="fa fa-rub"
+                                                                                   aria-hidden="true"></i></span>
+                                        </td>
+                                        <td class="b-count">
+                                            <input class="input" type="number" value="{{ rs.quantity }}">
+                                        </td>
+                                        <td class="b-total">
+                                        <span id="price">{{ rs.amount }} <i class="fa fa-rub"
+                                                                            aria-hidden="true"></i></span>
+                                        </td>
+{#                                        <td class="b-delete">#}
+{#                                            <a href="/order/deletefromcart/{{ rs.id }}"#}
+{#                                               onclick="return confirm('Удалить! Вы уверены?')">#}
+{#                                                <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"#}
+{#                                                                    aria-hidden="true"></i></button>#}
+{#                                            </a>#}
+{#                                        </td>#}
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <aside class="block_final_price">
+                        <div class="block_final_price_title">
+                            <p>Доставка</p>
+                        </div>
+                        <div class="block_final_price_count">
+                            <ul>
+                                <li><input type="radio" name="delivery" id="" checked> <span>200р Курьер</span></li>
+                                <li><input type="radio" name="delivery" id=""> <span>200р Почта</span></li>
+                            </ul>
+                        </div>
+                        <div class="block_final_price_title">
+                            <p>Сумма заказа</p>
+                        </div>
+                        <div class="block_final_price_final">
+                            <span id="price">{{ total }}<i class="fa fa-rub" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="block_final_price_title">
+                            <p>Оплата</p>
+                        </div>
+                        <div class="block_final_price_count">
+                            <ul>
+                                <li><input type="radio" name="pay" id="" checked> <span>Онлайн</span></li>
+                                <li><input type="radio" name="pay" id=""> <span>Карта</span></li>
+                                <li><input type="radio" name="pay" id=""> <span>Наличными</span></li>
+                            </ul>
+                        </div>
+                        <div class="block_final_price_button">
+                            <a href="">
+                                <button type="submit" class="btn_checkout">Перейти к оплате</button>
+                            </a>
+                        </div>
+
+                    </aside>
+
                 </div>
-
-                <aside class="block_final_price">
-                    <div class="block_final_price_title">
-                        <p>В корзине</p>
-                    </div>
-                    <div class="block_final_price_count">
-                        <p>{{ shopcart.count }}</p>
-                        <p id="title_count">товара</p>
-                    </div>
-                    <div class="block_final_price_final">
-                        <span id="price">{{ total }} <i class="fa fa-rub" aria-hidden="true"></i></span>
-                    </div>
-                    <div class="block_final_price_button">
-                        <a href="/order/orderproduct">
-                            <button type="button" class="btn_checkout">Перейти к оформлению</button>
-                        </a>
-                    </div>
-                </aside>
-            </div>
+            </form>
         </div>
     </div>
 

@@ -1,0 +1,49 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Часто задаваемые вопросы {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная/</a></li>
+                <li class="">Часто задаваемые вопросы</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="shopcart-wrapper">
+        <div class="shopcart">
+            <div class="shopcart-title">
+                <p>Часто задаваемые вопросы</p>
+            </div>
+            <div class="shopcart_table">
+                <div class="shopcart_product">
+                    {% for rs in faq %}
+                        <hr>
+                        <h2>{{ rs.question }}</h2>
+                        <p>{{ rs.answer | safe }}</p>
+
+                    {% endfor %}
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->

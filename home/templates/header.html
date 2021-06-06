@@ -45,7 +45,7 @@
             </li>
 
             {% if user.id is not None %}
-                <li><a href=""><i class="fa fa-user-o" aria-hidden="true"></i>{{ user.first_name }}</a></li>
+                <li><a href="/user"><i class="fa fa-user-o" aria-hidden="true"></i>{{ user.first_name }}</a></li>
                 <li><a href="/logout">Выйти</a></li>
             {% else %}
                 <li><a href="/login"><i class="fa fa-user-o" aria-hidden="true"></i>Войти</a></li>

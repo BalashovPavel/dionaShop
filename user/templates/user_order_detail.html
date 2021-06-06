@@ -1,0 +1,177 @@
+{% extends 'homebase.html' %}
+
+{% load static %}
+
+{% block title %} Детали заказа {% endblock title %}
+
+{% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
+
+{% block body %}
+
+    <div id="breadcrumb">
+        <div class="card-wrapper">
+            <ul class="breadcrumb" style="display: flex">
+                <li><a href="/">Главная</a></li>
+                <li class="">/</li>
+                <li class="">Профиль</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="section">
+
+        <div class="user_profil-wrapper">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <!-- row -->
+            <div class="row">
+
+
+                <div class="user_panel">
+                    {% include "user_panel.html" %}
+                </div>
+
+
+                <div class="user_profil">
+
+                    <div class="profil_wrapper">
+
+
+                        <div class="user_title">
+                            <p>Детеали заказа</p>
+                        </div>
+                        <table class="">
+                            <tr>
+                                <th class="text-left">Имя</th>
+                                <td class="text-left">{{ order.first_name }} {{ order.last_name }} </td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Телефон</th>
+                                <td class="text-left">{{ order.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Адрес</th>
+                                <td class="text-left">{{ order.address }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Горорд</th>
+                                <td class="text-left">{{ order.city }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Страна</th>
+                                <td class="text-left">{{ order.country }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Статус заказа</th>
+                                <td class="text-left">{{ order.status }}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-left">Дата</th>
+                                <td class="text-left">{{ order.create_at }}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-left">Сумма</th>
+                                <td class="text-left">{{ order.total }} <i class="fa fa-rub"
+                                                                           aria-hidden="true"></i></td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-left">Комментарий магазина</th>
+                                <td class="text-left">{{ order.adminnote }}</td>
+                            </tr>
+
+
+                        </table>
+
+
+                        <div class="user_title">
+                            <p>Список товаров</p>
+                        </div>
+
+                        <table class="shopcart_product_table">
+                            <thead>
+                            <tr>
+                                <th class="h-product">
+                                    Товар
+                                </th>
+                                <th class="h-title">
+
+                                </th>
+                                <th class="h-price">
+                                    Цена
+                                </th>
+                                <th class="h-count">
+                                    Кол-во
+                                </th>
+                                <th class="h-total">
+                                    Итого
+                                </th>
+                                <th class="h-delete">
+
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for rs in orderitems %}
+
+                                <tr>
+                                    <td class="b-img_product">
+                                        <img src="{{ rs.product.image.url }}" alt="">
+                                    </td>
+                                    <td class="b-title">
+                                        <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product }}</a>
+                                        <ul>
+                                            <li><span>Ширина: 80</span></li>
+                                            <li><span>Высота: 200</span></li>
+                                            <li><span>Подкладка: Без подкладки</span></li>
+                                        </ul>
+                                    </td>
+                                    <td class="b-price">
+                                        <span id="price">{{ rs.product.price }} <i class="fa fa-rub"
+                                                                                   aria-hidden="true"></i></span>
+                                    </td>
+                                    <td class="b-count">
+                                        <p>{{ rs.quantity }}</p>
+                                    </td>
+                                    <td class="b-total">
+                                        <span id="price">{{ rs.amount }} <i class="fa fa-rub"
+                                                                            aria-hidden="true"></i></span>
+                                    </td>
+                                    {#                                        <td class="b-delete">#}
+                                    {#                                            <a href="/order/deletefromcart/{{ rs.id }}"#}
+                                    {#                                               onclick="return confirm('Удалить! Вы уверены?')">#}
+                                    {#                                                <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"#}
+                                    {#                                                                    aria-hidden="true"></i></button>#}
+                                    {#                                            </a>#}
+                                    {#                                        </td>#}
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!-- /row -->
+        </div>
+
+    </div>
+
+{% endblock body %} <!-- подсасывание из body.html -->
+
+{% block footer %} {% include 'footer.html' %} {% endblock footer %} <!-- подсасывание из footer.html -->
+
