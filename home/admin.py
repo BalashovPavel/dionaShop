@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from home.models import Setting, ContactMessage, FAQ
+from home.models import CompanyInformation, ContactMessage, FAQ
 
 
 class SettingAdmin(admin.ModelAdmin):
@@ -19,6 +19,6 @@ class FAQAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Setting, SettingAdmin)  # добавляет в админку Категории
+admin.site.register(CompanyInformation, SettingAdmin)  # добавляет в админку Категории
 admin.site.register(ContactMessage, ContactMessageAdmin)
 admin.site.register(FAQ, FAQAdmin)

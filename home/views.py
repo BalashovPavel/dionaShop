@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from home.forms import SearchForm
-from home.models import Setting, ContactForm, ContactMessage, FAQ
+from home.models import CompanyInformation, ContactForm, ContactMessage, FAQ
 from product.models import Product, Category, Images, Comment
 
 
@@ -24,7 +24,7 @@ def index(request):
             messages.success(request, 'Благодарим за проявленный интерес, менеджер свяжется с вами в ближайшее время.')
             return HttpResponseRedirect('/home/')
 
-    setting = Setting.objects.get(pk=1)
+    setting = CompanyInformation.objects.get(pk=1)
     products_slider = Product.objects.all().order_by('-id')[:4]
     page = 'home'
     form = ContactForm
@@ -42,7 +42,7 @@ def services(request):
 
 
 def about(request):
-    setting = Setting.objects.get(pk=1)
+    setting = CompanyInformation.objects.get(pk=1)
     context = {
         'setting': setting
     }
@@ -54,7 +54,7 @@ def delivery(request):
 
 
 def all_products(request):
-    setting = Setting.objects.get(pk=1)
+    setting = CompanyInformation.objects.get(pk=1)
     product = Product.objects.all()
     category = Category.objects.all()
     context = {
