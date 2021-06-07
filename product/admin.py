@@ -72,4 +72,4 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdminTwo)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(Images)
+# admin.site.register(Images)

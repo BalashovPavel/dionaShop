@@ -21,7 +21,8 @@ class Category(MPTTModel):
     keywords = models.CharField(max_length=255, verbose_name='Ключевое слово')  # Ключевое слово
     description = models.CharField(max_length=255, verbose_name='Описание')  # Описание
     status = models.CharField(max_length=20, choices=STATUS, verbose_name='Статус видимости')  # Статус
-    image = models.ImageField(blank=True, upload_to='images/', verbose_name='Изображение категории')  # Изображение(поле может быть пустым, загружается в)
+    image = models.ImageField(blank=True, upload_to='images/',
+                              verbose_name='Изображение категории')  # Изображение(поле может быть пустым, загружается в)
     slug = models.SlugField(null=False, unique=True, verbose_name='Короткая метка')  # Короткая метка
     create_at = models.DateTimeField(auto_now_add=True)  # Создано в
     update_at = models.DateTimeField(auto_now=True)  # Обнавлено в
@@ -44,6 +45,10 @@ class Category(MPTTModel):
             k = k.parent
         return ' / '.join(full_path[::-1])
 
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
 
 class Product(models.Model):
     STATUS = (
@@ -64,7 +69,8 @@ class Product(models.Model):
         ('russia', 'Россия'),
         ('china', 'Китай'),
     )
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')  # отношение "многие к одному" с категорией
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,
+                                 verbose_name='Категория')  # отношение "многие к одному" с категорией
     title = models.CharField(max_length=150, verbose_name='Название')
     keywords = models.CharField(max_length=255, verbose_name='Ключевое слово')
     description = models.CharField(max_length=255, verbose_name='Описание')
@@ -72,7 +78,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=0, default=0, verbose_name='Цена')  # Цена
     amount = models.IntegerField(default=0, verbose_name='Кол-во')  # Кол-во
     # min_amount = models.IntegerField(default=3) # Минимальное кол-во
-    variant = models.CharField(max_length=10, choices=VARIANTS, default='None', verbose_name='Цвет') #
+    variant = models.CharField(max_length=10, choices=VARIANTS, default='None', verbose_name='Цвет')  #
     country = models.CharField(max_length=10, choices=COUNTRY, default='None', verbose_name='Страна')  #
     detail = RichTextUploadingField(verbose_name='Детали')  # Детали (CKeditor)
     slug = models.SlugField(null=False, unique=True, verbose_name='Метка')
@@ -107,9 +113,14 @@ class Product(models.Model):
             cnt_rev = int(reviews["count"])
         return cnt_rev
 
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
 
 class Images(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')  # отношение "многие к одному" с продуктом
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                verbose_name='Продукт')  # отношение "многие к одному" с продуктом
     title = models.CharField(max_length=50, blank=True, verbose_name='Название')
     image = models.ImageField(blank=True, upload_to='images/', verbose_name='Изображение')
 
@@ -123,6 +134,10 @@ class Images(models.Model):
         else:
             return ""
 
+    class Meta:
+        verbose_name = 'Дополнительное изображение'
+        verbose_name_plural = 'Изображения доп.'
+
 
 class Comment(models.Model):
     STATUS = (
@@ -131,7 +146,8 @@ class Comment(models.Model):
         ('False', 'Не виден'),
     )
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')  # отношение "многие к одному" с продуктом
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                verbose_name='Продукт')  # отношение "многие к одному" с продуктом
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Логин')
     subject = models.CharField(max_length=50, blank=True, verbose_name='Субъект')
     comment = models.CharField(max_length=500, blank=True, verbose_name='Отзыв')
@@ -144,8 +160,12 @@ class Comment(models.Model):
     def __str__(self):
         return self.subject
 
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
 
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ['subject', 'comment', 'rate',]
+        fields = ['subject', 'comment', 'rate', ]

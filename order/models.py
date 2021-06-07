@@ -25,6 +25,11 @@ class ShopCart(models.Model):
         return (self.quantity * self.product.price)
 
 
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+
+
 class ShopCartForm(ModelForm):
     class Meta:
         model = ShopCart
@@ -58,6 +63,9 @@ class Order(models.Model):
     def __str__(self):
         return self.user.first_name
 
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 class OrderForm(ModelForm):
     class Meta:
@@ -84,3 +92,7 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return self.product.title
+
+    class Meta:
+        verbose_name = 'Заказанный товар'
+        verbose_name_plural = 'Заказанные товары'

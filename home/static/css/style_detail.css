@@ -70,13 +70,19 @@
 
 .img-select {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+}
+
+.img-select :last-child{
+    margin-right: 0px;
 }
 
 .img-item {
     width: 24%;
     margin-top: 1%;
+    margin-right: 1%;
 }
+
 
 .img-item .active {
     opacity: 0.5;

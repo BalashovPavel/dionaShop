@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
@@ -25,7 +26,7 @@ def index(request):
             return HttpResponseRedirect('/home/')
 
     setting = CompanyInformation.objects.get(pk=1)
-    products_slider = Product.objects.all().order_by('-id')[:4]
+    products_slider = Product.objects.all().order_by('-create_at')[:4]
     page = 'home'
     form = ContactForm
     context = {
@@ -57,10 +58,14 @@ def all_products(request):
     setting = CompanyInformation.objects.get(pk=1)
     product = Product.objects.all()
     category = Category.objects.all()
+    paginator = Paginator(product, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         'setting': setting,
         'product': product,
         'category': category,
+        'page_obj': page_obj,
     }
     return render(request, 'catalog.html', context)
 

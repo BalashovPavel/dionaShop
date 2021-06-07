@@ -113,7 +113,7 @@
 
 
                 <ul class="products clearfix">
-                    {% for prod in product %}
+                    {% for prod in page_obj%}
 
 
                         <li class="product-wrapper true {{ prod.variant }} tr_ctr {{ prod.country }}">
@@ -129,6 +129,8 @@
 
 
                     {% endfor %}
+
+
                     {#                    <li class="product-wrapper">#}
                     {#                        <a href="" class="product">#}
                     {#                            <div class="product-photo">#}
@@ -222,6 +224,33 @@
                 </ul>
 
 
+            </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; Первая</a>
+                        <span>|</span>
+                        <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                    {% endif %}
+
+                    {% for p in page_obj.paginator.get_elided_page_range %}
+                        {% if page_obj.number == p %}
+                            <li class="page-num page-num-selected">{{ p }}</li>
+                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                            <li class="page-num">
+					            <a href="?page={{ p }}">{{ p }}</a>
+				            </li>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                        <span>|</span>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+                    {% endif %}
+
+                </span>
             </div>
         </div>
     </div>
