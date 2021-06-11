@@ -1,3 +1,4 @@
+{% load home_tags %}
 {% load static %}
 
 <div class="intro">
@@ -35,6 +36,15 @@
                                 <img src="{{ prod.image.url }}" alt="">
                             </div>
                             <div class="product-title">{{ prod.title }}</div>
+                            {% rateproduct prod.id as rate %}
+                                <div class="review-rating pull-right" id="avarege_review" style="float: none; position: relative; margin: auto; width: 86%;">
+                                    <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>
+                                    <span> ({{ rate | floatformat }})</span>
+                                </div>
                             <div class="product-price">{{ prod.price }} руб.</div>
                         </a>
                     </li>
@@ -156,7 +166,7 @@
                 </div>
                 <div class="form-request">
 
-                    <form name="form" action="#" id="form_message" method="post">
+                    <form name="form" id="form_message" method="post">
 
                         <h2>Оставьте заявку</h2>
 

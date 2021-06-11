@@ -63,13 +63,6 @@
                                        id="id_phone">
                             </p>
 
-                            <p><label for="id_first_name">Country :</label>
-                                <input type="text" name="country" class="input" id="id_country"
-                                       value="{{ profile.country }}">
-                            </p>
-                            <div class="pull-right">
-                                <button type="submit" class="primary-btn">Complete Order</button>
-                            </div>
                         </div>
 
                         <div class="shopcart_form">
@@ -110,17 +103,16 @@
                                         <td class="b-title">
                                             <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product }}</a>
                                             <ul>
-                                                <li><span>Ширина: 80</span></li>
-                                                <li><span>Высота: 200</span></li>
-                                                <li><span>Подкладка: Без подкладки</span></li>
+                                                <li><span>Ширина: {{ rs.width }}</span></li>
+                                                <li><span>Высота: {{ rs.height }}</span></li>
                                             </ul>
                                         </td>
                                         <td class="b-price">
-                                        <span id="price">{{ rs.product.price }} <i class="fa fa-rub"
+                                        <span id="price">{{ rs.price }} <i class="fa fa-rub"
                                                                                    aria-hidden="true"></i></span>
                                         </td>
                                         <td class="b-count">
-                                            <input class="input" type="number" value="{{ rs.quantity }}">
+                                            <p>{{ rs.quantity }}</p>
                                         </td>
                                         <td class="b-total">
                                         <span id="price">{{ rs.amount }} <i class="fa fa-rub"
@@ -147,9 +139,9 @@
                             <p>Доставка</p>
                         </div>
                         <div class="block_final_price_count">
-                            <ul>
-                                <li><input type="radio" name="delivery" id="" checked> <span>200р Курьер</span></li>
-                                <li><input type="radio" name="delivery" id=""> <span>200р Почта</span></li>
+                            <ul style="padding-left: 0px; list-style: none; width: 100%" >
+                                <li style="display: flex; justify-content: space-around"><input type="radio" name="delivery" id="" checked value="200"> <p style="width: min-content; width: -moz-min-content">Курьерской службой 200р.</p></li>
+                                <li style="display: flex; justify-content: space-around"><input type="radio" name="delivery" id="" value="0"> <p style="width: min-content; width: -moz-min-content">Самовывоз бесплатно</p></li>
                             </ul>
                         </div>
                         <div class="block_final_price_title">

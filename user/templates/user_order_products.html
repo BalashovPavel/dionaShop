@@ -81,13 +81,12 @@
                                     <td class="b-title">
                                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product }}</a>
                                         <ul>
-                                            <li><span>Ширина: 80</span></li>
-                                            <li><span>Высота: 200</span></li>
-                                            <li><span>Подкладка: Без подкладки</span></li>
+                                            <li><span>Ширина: {{ rs.width }}</span></li>
+                                            <li><span>Высота: {{ rs.height }}</span></li>
                                         </ul>
                                     </td>
                                     <td class="b-price">
-                                        <span id="price">{{ rs.product.price }} <i class="fa fa-rub"
+                                        <span id="price">{{ rs.price }} <i class="fa fa-rub"
                                                                                    aria-hidden="true"></i></span>
                                     </td>
                                     <td class="b-count">

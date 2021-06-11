@@ -14,13 +14,18 @@ from user.models import UserProfile
 
 @login_required(login_url='/login')  # Check login
 def index(request):
+    category = Category.objects.all()
     current_user = request.user  # Access User Session information
     profile = UserProfile.objects.get(user_id=current_user.id)
-    context = {'profile': profile}
+    context = {
+        'profile': profile,
+        'category': category,
+    }
     return render(request, 'user_profile.html', context)
 
 
 def login_form(request):
+    category = Category.objects.all()
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -35,7 +40,11 @@ def login_form(request):
             messages.warning(request, "Введён неверный Логин или Пароль")
 
             return HttpResponseRedirect("/login")
-    return render(request, 'login_form.html')
+
+    context = {
+        'category': category
+    }
+    return render(request, 'login_form.html', context)
 
 
 def logout_func(request):
@@ -44,6 +53,7 @@ def logout_func(request):
 
 
 def signup_form(request):
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -66,8 +76,9 @@ def signup_form(request):
             return HttpResponseRedirect('/signup')
 
     form = SignUpForm()
-    # category = Category.objects.all()
-    context = {  # 'category': category,
+    category = Category.objects.all()
+    context = {
+        'category': category,
         'form': form,
     }
     return render(request, 'signup_form.html', context)
@@ -109,16 +120,17 @@ def user_password_update(request):
             messages.error(request, 'Ошибка ввода пароля.<br>')
             return HttpResponseRedirect('/user/password')
     else:
-        # category = Category.objects.all()
+        category = Category.objects.all()
         form = PasswordChangeForm(request.user)
-        return render(request, 'user_password_update.html', {'form': form, })
+        return render(request, 'user_password_update.html', {'form': form, 'category': category })
 
 
 @login_required(login_url='/login')  # Check login
 def user_orders(request):
     current_user = request.user
     orders = Order.objects.filter(user_id=current_user.id)
-    context = {'orders': orders, }
+    category = Category.objects.all()
+    context = {'orders': orders, 'category': category }
     return render(request, 'user_orders.html', context)
 
 
@@ -127,9 +139,11 @@ def user_orderdetail(request, id):
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=id)
     orderitems = OrderProduct.objects.filter(order_id=id)
+    category = Category.objects.all()
     context = {
         'order': order,
         'orderitems': orderitems,
+        'category': category,
     }
     return render(request, 'user_order_detail.html', context)
 
@@ -138,8 +152,10 @@ def user_orderdetail(request, id):
 def user_order_product(request):
     current_user = request.user
     order_product = OrderProduct.objects.filter(user_id=current_user.id).order_by('-id')
+    category = Category.objects.all()
     context = {
         'order_product': order_product,
+        'category': category,
     }
     return render(request, 'user_order_products.html', context)
 
@@ -149,9 +165,11 @@ def user_order_product_detail(request, id, oid):
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=oid)
     orderitems = OrderProduct.objects.filter(id=id, user_id=current_user.id)
+    category = Category.objects.all()
     context = {
         'order': order,
         'orderitems': orderitems,
+        'category': category,
     }
     return render(request, 'user_order_detail.html', context)
 
@@ -159,8 +177,10 @@ def user_order_product_detail(request, id, oid):
 def user_comments(request):
     current_user = request.user
     comments = Comment.objects.filter(user_id=current_user.id)
+    category = Category.objects.all()
     context = {
         'comments': comments,
+        'category': category,
     }
     return render(request, 'user_comments.html', context)
 

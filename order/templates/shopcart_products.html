@@ -66,17 +66,22 @@
                                 <td class="b-title">
                                     <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product}}</a>
                                     <ul>
-                                        <li><span>Ширина: 80</span></li>
-                                        <li><span>Высота: 200</span></li>
-                                        <li><span>Подкладка: Без подкладки</span></li>
+                                        <li><span>Ширина: {{ rs.width }}</span></li>
+                                        <li><span>Высота: {{ rs.height }}</span></li>
+{#                                        <li><span>Подкладка: Без подкладки</span></li>#}
                                     </ul>
                                 </td>
                                 <td class="b-price">
-                                    <span id="price">{{ rs.product.price }} <i class="fa fa-rub" aria-hidden="true"></i></span>
+
+                                    <span id="price">{{ rs.price }} <i class="fa fa-rub" aria-hidden="true"></i></span>
                                 </td>
-                                <td class="b-count">
-                                    <input class="input" type="number" value="{{ rs.quantity }}">
-                                </td>
+                                <form action="{% url 'changefromcart' id=rs.id%}" method="post">
+                                    {% csrf_token %}
+                                    <td class="b-count">
+                                        <input class="input" type="number" min="1" name="quantity_in_shopcart" value="{{ rs.quantity }}">
+                                        <input type="submit" value="Изменить кол-во">
+                                    </td>
+                                </form>
                                 <td class="b-total">
                                     <span id="price">{{ rs.amount }} <i class="fa fa-rub" aria-hidden="true"></i></span>
                                 </td>
@@ -106,9 +111,11 @@
                         <span id="price">{{ total }} <i class="fa fa-rub" aria-hidden="true"></i></span>
                     </div>
                     <div class="block_final_price_button">
-                        <a href="/order/orderproduct">
-                            <button type="button" class="btn_checkout">Перейти к оформлению</button>
-                        </a>
+                         {% if shopcart.count >= 1 %}
+                            <a href="/order/orderproduct">
+                                <button type="button" class="btn_checkout">Перейти к оформлению</button>
+                            </a>
+                         {% endif %}
                     </div>
                 </aside>
             </div>

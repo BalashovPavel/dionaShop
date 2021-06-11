@@ -41,19 +41,18 @@ class CompanyInformation(models.Model):
     class Meta:
         verbose_name = 'Компания'
         verbose_name_plural = 'Компании'
-        ordering = ['title']
 
 
 class ContactMessage(models.Model):
     STATUS = (
-        ('New', 'New'),
-        ('Read', 'Read'),
-        ('Closed', 'Closed'),
+    ('New', 'New'),
+    ('Read', 'Read'),
+    ('Closed', 'Closed'),
     )
-    name = models.CharField(blank=False, max_length=20, verbose_name='Имя')
+    name = models.CharField(blank=False, max_length=50, verbose_name='Имя')
     email = models.CharField(blank=False, max_length=50, verbose_name='Email')
-    subject = models.CharField(blank=False, max_length=50)
-    message = models.TextField(blank=True, max_length=255, verbose_name='Ваше сообщение')
+    # subject = models.CharField(blank=False, max_length=50)
+    message = models.TextField(blank=False, max_length=255, verbose_name='Ваше сообщение')
     status = models.CharField(max_length=10, choices=STATUS, default='New')
     ip = models.CharField(blank=True, max_length=20)
     note = models.CharField(blank=True, max_length=100)
@@ -75,7 +74,7 @@ class ContactForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             # 'subject': TextInput(attrs={'class': 'input', 'placeholder': 'Subject'}),
-            'email': TextInput(attrs={'class': 'input'}),
+            'email': TextInput(attrs={'class': 'input', 'type': 'email'}),
             'message': Textarea(attrs={'class': 'input', 'rows': '5'}),
         }
 

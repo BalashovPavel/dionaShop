@@ -35,221 +35,121 @@
                         <!-- <li><a href=""></a></li> -->
                     {% endrecursetree %}
 
+                    <li>
+                        <a href="/all_products">Все товары</a>
+                    </li>
+
 
                     <div class="checkbox">
+
+
                         <div class="multi_filters">
 
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Белый цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="white" id="white" onchange="fun1()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Чёрный цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="black" onchange="fun1()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Зелённый цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="green" onchange="fun1()">
-                                </span>
-                                </label>
+                            {% load home_tags %}
+                            {#<form action="{% url 'all_products' %}" method="get" id="sortProduct">#}
+                            <div class="">
+                                <span>Сортировка:</span>
+                                <ul style="list-style: none; padding: 0px">
+                                    <li><a href="?{% param_replace order='title' %}">По алфавиту (а-я)</a></li>
+                                    <li><a href="?{% param_replace order='-title' %}">По алфавиту (я-а)</a></li>
+                                    <li><a href="?{% param_replace order='price' %}">По возрастанию цены</a></li>
+                                    <li><a href="?{% param_replace order='-price' %}">По убыванию цены</a></li>
+                                    <li><a href="?{% param_replace order='-id' %}">Сначала новые</a></li>
+                                    <li><a href="?{% param_replace order='id' %}">Сначала старые</a></li>
+
+                                </ul>
+
                             </div>
 
-
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Турция</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="turkey" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Китай</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="china" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Россия</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="russia" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-
+                            <form method="get">
+                                {#                                {{ form.as_ul }}#}
+                                {#                                <input type="submit"/>#}
+                                {{ filter.form.as_p }}
+                                <input type="submit"/>
+                            </form>
+                            {#                            {% for obj in filter.qs %}#}
+                            {#                                {{ obj.title }} - {{ obj.price }}<br/>#}
+                            {#                            {% endfor %}#}
                         </div>
                     </div>
+
+
                 </ul>
             </div>
         </div>
         <div class="main_catalog">
-            <div class="title_catalog">Каталог</div>
+            {% if catdata is None %}
+                <div class="title_catalog">Каталог</div>
+            {% else  %}
+                <div class="title_catalog">{{ catdata.title }}</div>
+            {% endif %}
             <div class="cart_catalog">
 
 
                 <ul class="products clearfix">
-                    {% for prod in page_obj%}
+                    {% for prod in page_obj %}
 
 
-                        <li class="product-wrapper true {{ prod.variant }} tr_ctr {{ prod.country }}">
+                        <li class="product-wrapper">
                             <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
                                 <div class="product-photo">
                                     <img src="{{ prod.image.url }}" alt="">
                                 </div>
 
                                 <div class="product-title">{{ prod.title }}</div>
+
+                                {% rateproduct prod.id as rate %}
+                                <div class="review-rating pull-right" id="avarege_review" style="float: none; position: relative; margin: auto; width: 86%;">
+                                    <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>
+                                    <span> ({{ rate | floatformat }})</span>
+                                </div>
                                 <div class="product-price">{{ prod.price }} руб.</div>
                             </a>
                         </li>
 
 
                     {% endfor %}
-
-
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Римская штора с карнизом Simone 4</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
-                    {#                    <li class="product-wrapper">#}
-                    {#                        <a href="" class="product">#}
-                    {#                            <div class="product-photo">#}
-                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="product-title">Название большое длинное 1</div>#}
-                    {#                            <div class="product-price">от 4220 руб.</div>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
                 </ul>
 
 
             </div>
             <div class="pagination">
                 <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo; Первая</a>
-                        <span>|</span>
-                        <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+
+                    {% load home_tags %}
+
+                    {% if page_obj.has_other_pages %}
+                        <nav class="list-pages">
+                            <ul>
+                                {% if page_obj.has_previous %}
+                                    <a href="?{% param_replace page=1 %}">&laquo; Первая</a>
+                                    <span>|</span>
+                                    <a href="?{% param_replace page=page_obj.previous_page_number %}">Предыдущая</a>
+                                {% endif %}
+
+                                {% for p in page_obj.paginator.get_elided_page_range %}
+                                    {% if page_obj.number == p %}
+                                        <li class="page-num page-num-selected">{{ p }}</li>
+                                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                        <li class="page-num">
+                                            <a href="?{% param_replace page=p %}">{{ p }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                {% if page_obj.has_next %}
+                                    <a href="?{% param_replace page=page_obj.next_page_number %}">Следующая</a>
+                                    <span>|</span>
+                                    <a href="?{% param_replace page=page_obj.paginator.num_pages %}">Последняя &raquo;</a>
+                                {% endif %}
+                            </ul>
+                        </nav>
                     {% endif %}
-
-                    {% for p in page_obj.paginator.get_elided_page_range %}
-                        {% if page_obj.number == p %}
-                            <li class="page-num page-num-selected">{{ p }}</li>
-                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                            <li class="page-num">
-					            <a href="?page={{ p }}">{{ p }}</a>
-				            </li>
-                        {% endif %}
-                    {% endfor %}
-
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-                        <span>|</span>
-                        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
-                    {% endif %}
-
                 </span>
             </div>
         </div>

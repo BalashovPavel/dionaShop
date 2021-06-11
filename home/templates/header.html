@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <header class="header" id="myHeader">
@@ -7,10 +8,16 @@
             <li id="listDropdown" class="dropdown" onclick="myFunctionDrop()">
                 <a type="btn" class="dropbtn">Магазин<img src="{% static '' %}images/down-arrow.svg" alt=""></a>
                 <div id="myDropdown" class="dropdown-content">
-                    <a href="#">Римские шторы</a>
-                    <a href="#">Ткани</a>
-                    <a href="">Карнизы</a>
-                    <a href="#">Аксессуары</a>
+{#                    <a href="#">Римские шторы</a>#}
+{#                    <a href="#">Ткани</a>#}
+{#                    <a href="">Карнизы</a>#}
+{#                    <a href="#">Аксессуары</a>#}
+                    {% load mptt_tags %}
+                    {% recursetree category %}
+
+                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
+
+                    {% endrecursetree %}
                     <a href="/all_products">Все</a>
                 </div>
             </li>
@@ -52,13 +59,14 @@
                 <li><a href="/signup"><i class="fa fa-user-o" aria-hidden="true"></i>Регистрация</a></li>
             {% endif %}
 
-
+            {% load home_tags %}
+            {% shopcartcount user.id as count %}
 
             <li>
                 <a href="/shopcart/">
                     <div class="menu-href">
                         <div>Корзина<i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
-                        <div id="numb">{{ shopcart.count }}</div>
+                        <div id="numb">{{ count }}</div>
                     </div>
                 </a>
             </li>
@@ -82,18 +90,18 @@
                 </form>
             </li>
             <li>
-                <a href=""><img src="{% static '' %}images/human.svg" alt="" id="icon"></a>
+                <a href="/user"><img src="{% static '' %}images/human.svg" alt="" id="icon"></a>
             </li>
             <li id="li_cart">
-                <a href=""><img src="{% static '' %}images/cart.svg" alt="" id="icon"></a>
+                <a href="/shopcart/"><img src="{% static '' %}images/cart.svg" alt="" id="icon"></a>
             </li>
         </ul>
         <ul id="nav">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="catalog.html">Магазин</a></li>
-            <li><a href="">Услуги</a></li>
-            <li><a href="">О нас</a></li>
-            <li><a href="">Доставка</a></li>
+            <li><a href="/home">Главная</a></li>
+            <li><a href="/all_products">Магазин</a></li>
+            <li><a href="/services">Услуги</a></li>
+            <li><a href="/about">О нас</a></li>
+            <li><a href="/delivery">Доставка</a></li>
         </ul>
     </nav>
 </header>

@@ -39,6 +39,7 @@ urlpatterns = [
                   path('search/', views.search, name='search'),
                   # path('search_auto/', views.search_auto, name='search_auto'),
                   path('all_products/', views.all_products, name='all_products'),
+                  # path('sorted_product/', views.sorted_product, name='sorted_product'),
                   path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
                   path('product/<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
                   path('shopcart/', OrderViews.shopcart, name='shopcart'),

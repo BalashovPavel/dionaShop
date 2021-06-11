@@ -27,6 +27,9 @@ def addcomment(request, id):
             # return HttpResponse(request.user)
             data.user = request.user
             data.save()  # сохранение даных в таблице
+            # context = {
+            #     'subject': data.subject
+            # }
             return HttpResponseRedirect(url)
 
     return HttpResponseRedirect(url)

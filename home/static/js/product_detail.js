@@ -86,30 +86,33 @@ $('#result_width').bind('input change', function () {
     $('#range_width').val(data);
 
 });
-
-$('#plus_width').click(function () {
-    $('#range_width').val(parseInt($('#range_width').val()) + 1);
-    $('#result_width').val(parseInt($('#result_width').val()) + 1);
-});
-
-$('#minus_width').click(function () {
-    $('#range_width').val(parseInt($('#range_width').val()) - 1);
-    $('#result_width').val(parseInt($('#result_width').val()) - 1);
-});
-
-$(document).click(function () {
-    var data = $('#result_width').val();
-    if (data < 50) {
-        data = 50;
-        $('#result_width').val(data);
-        $('#range_width').val(data);
-    }
-    else if (data > 240) {
-        data = 240;
-        $('#result_width').val(data);
-        $('#range_width').val(data);
-    }
-})
+//
+// $('#plus_width').click(function () {
+//     $('#range_width').val(parseInt($('#range_width').val()) + 1);
+//     $('#result_width').val(parseInt($('#result_width').val()) + 1);
+// });
+//
+// $('#minus_width').click(function () {
+//     $('#range_width').val(parseInt($('#range_width').val()) - 1);
+//     $('#result_width').val(parseInt($('#result_width').val()) - 1);
+// });
+//
+// $(document).click(function () {
+//     var data = $('#result_width').val();
+//     var $min_w = $('#min_width');
+//     var $max_w = $('#max_width');
+//     if (data < $min_w.val()) {
+//         data = $min_w.val();
+//         $('#result_width').val(data);
+//         $('#range_width').val(data);
+//     }
+//     else if (data > $max_w.val()) {
+//         data = $max_w.val();
+//         $('#result_width').val(data);
+//         $('#range_width').val(data);
+//     }
+//
+// })
 
 
 /*    ВЫСОТА    */
@@ -122,29 +125,32 @@ $('#result_height').bind('input change', function () {
     var data = $('#result_height').val();
     $('#range_height').val(data);
 });
-
-$('#plus_height').click(function () {
-    $('#range_height').val(parseInt($('#range_height').val()) + 1);
-    $('#result_height').val(parseInt($('#result_height').val()) + 1);
-});
-
-$('#minus_height').click(function () {
-    $('#range_height').val(parseInt($('#range_height').val()) - 1);
-    $('#result_height').val(parseInt($('#result_height').val()) - 1);
-});
-
-$(document).click(function () {
-    var data = $('#result_height').val();
-    if (data < 120) {
-        data = 120;
-        $('#result_height').val(data);
-        $('#range_height').val(data);
-    }
-    else if (data > 300) {
-        data = 300;
-        $('#result_height').val(data);
-        $('#range_height').val(data);
-    }
-})
+//
+// $('#plus_height').click(function () {
+//     $('#range_height').val(parseInt($('#range_height').val()) + 1);
+//     $('#result_height').val(parseInt($('#result_height').val()) + 1);
+// });
+//
+// $('#minus_height').click(function () {
+//     $('#range_height').val(parseInt($('#range_height').val()) - 1);
+//     $('#result_height').val(parseInt($('#result_height').val()) - 1);
+// });
+//
+// $(document).click(function () {
+//     var data = $('#result_height').val();
+//     var $min = $('#min_height');
+//     var $max = $('#max_height');
+//     if (data < $min.val()) {
+//         data = $min.val();
+//         $('#result_height').val(data);
+//         $('#range_height').val(data);
+//     }
+//     else if (data > $max.val()) {
+//         data = $max.val();
+//         $('#result_height').val(data);
+//         $('#range_height').val(data);
+//     }
+//
+// })
 
 

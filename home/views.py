@@ -6,23 +6,24 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from home.forms import SearchForm
+from home.forms import SearchForm, ProductFilterForm
 from home.models import CompanyInformation, ContactForm, ContactMessage, FAQ
-from product.models import Product, Category, Images, Comment
+from product.models import Product, Category, Images, Comment, ProductFilter
 
 
 def index(request):
+    category = Category.objects.all()
     if request.method == 'POST':  # проверка на метож post
         form = ContactForm(request.POST)
         if form.is_valid():
             data = ContactMessage()  # создание связи с моделью
             data.name = form.cleaned_data['name']
             data.email = form.cleaned_data['email']
-            data.subject = form.cleaned_data['subject']
+            # data.subject = form.cleaned_data['subject']
             data.message = form.cleaned_data['message']
             data.ip = request.META.get('REMOTE_ADDR')
             data.save()  # сохранение даных в таблице
-            messages.success(request, 'Благодарим за проявленный интерес, менеджер свяжется с вами в ближайшее время.')
+            # messages.success(request, 'Благодарим за проявленный интерес, менеджер свяжется с вами в ближайшее время.')
             return HttpResponseRedirect('/home/')
 
     setting = CompanyInformation.objects.get(pk=1)
@@ -34,6 +35,7 @@ def index(request):
         'page': page,
         'form': form,
         'products_slider': products_slider,
+        'category': category,
     }
     return render(request, 'index.html', context)
 
@@ -44,8 +46,10 @@ def services(request):
 
 def about(request):
     setting = CompanyInformation.objects.get(pk=1)
+    category = Category.objects.all()
     context = {
-        'setting': setting
+        'setting': setting,
+        'category': category,
     }
     return render(request, 'about.html', context)
 
@@ -55,45 +59,122 @@ def delivery(request):
 
 
 def all_products(request):
+    url = request.META.get('HTTP_REFERER')
     setting = CompanyInformation.objects.get(pk=1)
     product = Product.objects.all()
     category = Category.objects.all()
-    paginator = Paginator(product, 1)
+    # ordering = request.GET.get('orderby')
+    #
+    # if ordering is None:
+    #     product = product.order_by('id')
+    # else:
+    #     product = product.order_by(ordering)
+
+    order = request.GET.get('order', '-id')
+    product = product.order_by(order)
+
+    # feel = request.GET.get('feel')
+    # product = product.filter(feel.qs)
+
+    # form = ProductFilterForm(request.GET)
+    # if form.is_valid():
+    #     if form.cleaned_data["ordering"]:
+    #         product = product.order_by(form.cleaned_data["ordering"])
+
+    filter = ProductFilter(request.GET, queryset=product)
+    paginator = Paginator(filter.qs, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     context = {
         'setting': setting,
         'product': product,
         'category': category,
         'page_obj': page_obj,
+        'filter': filter,
+        # 'ordering': ordering,
+        # 'form': form,
     }
     return render(request, 'catalog.html', context)
 
 
+def sorted_product(self):
+    return None
+
+
+# def get_ordering(self):
+#     ordering = self.request.GET.get('orderby')
+#
+#
+#     return ordering
+
+
 def category_products(request, id, slug):
     category = Category.objects.all()
-    catdata = Category.objects.get(pk=1)
-    products = Product.objects.filter(category_id=id)
+    product = Product.objects.filter(category_id=id)
+    catdata = Category.objects.get(pk=id)
+    order = request.GET.get('order', '-id')
+    product = product.order_by(order)
+    filter = ProductFilter(request.GET, queryset=product)
+    paginator = Paginator(filter.qs, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'products': products,
+        'product': product,
         'category': category,
+        'page_obj': page_obj,
+        'filter': filter,
         'catdata': catdata,
+        # 'ordering': ordering,
+        # 'form': form,
     }
+
+    # category = Category.objects.all()
+    # catdata = Category.objects.get(pk=1)
+    # products = Product.objects.filter(category_id=id)
+    # print(products)
+    # context = {
+    #     'products': products,
+    #     'category': category,
+    #     'catdata': catdata,
+    # }
     return render(request, 'catalog.html', context)
 
 
 def product_detail(request, id, slug):
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
+    catdata = product.category.slug
+    print(catdata)
+
     images = Images.objects.filter(product_id=id)
     comments = Comment.objects.filter(product_id=id, status=True)
+    min_width = product.min_width
+    min_height = product.min_height
+    width_rome = min_width
+    height_rome = min_height
+    if request.method == 'POST':
+        width_rome = int(request.POST['width_rome'])
+        height_rome = int(request.POST['height_rome'])
+
+    if catdata == 'rimskie-shtory':
+        product_price = int(
+            (product.price_rome_cornice * (width_rome / min_width)) + (product.price_rome_cloth * (height_rome / min_height)))
+    else:
+        product_price = int(
+            product.price * (width_rome / min_width))
+
     context = {
         'product': product,
         'category': category,
         'images': images,
         'comments': comments,
+        'product_price': product_price,
+        'width_rome': width_rome,
+        'height_rome': height_rome,
     }
     return render(request, 'product_detail.html', context)
+
 
 # def product_detail(request,id,slug):
 #     query = request.GET.get('q')
@@ -138,7 +219,6 @@ def product_detail(request, id, slug):
 #                         'variant': variant,'query': query
 #                         })
 #     return render(request,'product_detail.html',context)
-
 
 
 def search(request):

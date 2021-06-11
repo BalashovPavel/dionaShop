@@ -98,101 +98,119 @@
                         <div class="min_description">{{ product.description }}
                         </div>
 
-                        <div class="parameter" id="width">
-                            <div class="param_title">
-                                <p>Ширина:</p>
-                            </div>
-                            <div class="choices">
-                                <div class="results">
-                                    <input type="number" value="50" min="50" max="240" id="result_width"/>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="parameter" id="width">
+                                <div class="param_title">
+                                    <p>Ширина:</p>
                                 </div>
-                                <div class="choice">
-                                    <div class="limit">
-                                        <p>50</p>
+                                <div class="choices">
+                                    <div class="results">
+                                        <input type="number" name="width_rome" value="{{ width_rome }}" min="{{ product.min_width }}" max="{{ product.max_width }}" id="result_width"/>
                                     </div>
-                                    <button class="bt_minus" id="minus_width">
-                                        <svg viewBox="0 0 24 24">
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                    </button>
-                                    <div class='range-container'>
-                                        <input id='range_width' type='range' min='50' max='240' step='1' value="50"/>
-                                    </div>
+                                    <div class="choice">
+                                        <div class="limit" >
+                                            <p >{{ product.min_width }}</p>
 
-                                    <button class="bt_plus" id="plus_width">
-                                        <svg viewBox="0 0 24 24">
-                                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                    </button>
+                                            <input id="min_width" type="hidden" aria-hidden="false" value="{{ product.min_width }}">
+                                        </div>
+{#                                        <button class="bt_minus" id="minus_width">#}
+{#                                            <svg viewBox="0 0 24 24">#}
+{#                                                <line x1="5" y1="12" x2="19" y2="12"></line>#}
+{#                                            </svg>#}
+{#                                        </button>#}
+                                        <div class='range-container'>
+                                            <input id='range_width' type='range' min="{{ product.min_width }}" max="{{ product.max_width }}" step='1' value="{{ width_rome }}"/>
+                                        </div>
 
-                                    <div class="limit">
-                                        <p>240</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{#                                        <button class="bt_plus" id="plus_width">#}
+{#                                            <svg viewBox="0 0 24 24">#}
+{#                                                <line x1="12" y1="5" x2="12" y2="19"></line>#}
+{#                                                <line x1="5" y1="12" x2="19" y2="12"></line>#}
+{#                                            </svg>#}
+{#                                        </button>#}
 
-                        <div class="parameter" id="height">
-                            <div class="param_title">
-                                <p>Высота:</p>
-                            </div>
-                            <div class="choices">
-                                <div class="results">
-                                    <input type="number" value="120" min="120" max="300" id="result_height"/>
-                                </div>
-                                <div class="choice">
-                                    <div class="limit">
-                                        <p>120</p>
-                                    </div>
-
-                                    <button class="bt_minus" id="minus_height">
-                                        <svg viewBox="0 0 24 24">
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                    </button>
-
-                                    <div class='range-container'>
-                                        <input id='range_height' type='range' min='120' max='300' step='1'
-                                               value="120"/>
-                                    </div>
-
-                                    <button class="bt_plus" id="plus_height">
-                                        <svg viewBox="0 0 24 24">
-                                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                    </button>
-
-                                    <div class="limit">
-                                        <p>300</p>
+                                        <div class="limit">
+                                            <p>{{ product.max_width }}</p>
+                                            <input id="max_width" type="hidden" aria-hidden="false" value="{{ product.max_width }}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <div class="parameter" id="height">
+                                <div class="param_title">
+                                    <p>Высота:</p>
+                                </div>
+                                <div class="choices">
+                                    <div class="results">
+                                        <input type="number" name="height_rome" value="{{ height_rome }}" min="{{ product.min_height }}" max="{{ product.max_height }}" id="result_height"/>
+                                    </div>
+                                    <div class="choice">
+                                        <div class="limit">
+                                            <p>{{ product.min_height }}</p>
+                                            <input id="min_height" type="hidden" aria-hidden="false" value="{{ product.min_height }}">
+                                        </div>
+
+{#                                        <button class="bt_minus" id="minus_height">#}
+{#                                            <svg viewBox="0 0 24 24">#}
+{#                                                <line x1="5" y1="12" x2="19" y2="12"></line>#}
+{#                                            </svg>#}
+{#                                        </button>#}
+
+                                        <div class='range-container'>
+                                            <input id='range_height' type='range' min="{{ product.min_height }}" max="{{ product.max_height }}" step='1'
+                                                   value="{{ height_rome }}"/>
+                                        </div>
+
+{#                                        <button class="bt_plus" id="plus_height">#}
+{#                                            <svg viewBox="0 0 24 24">#}
+{#                                                <line x1="12" y1="5" x2="12" y2="19"></line>#}
+{#                                                <line x1="5" y1="12" x2="19" y2="12"></line>#}
+{#                                            </svg>#}
+{#                                        </button>#}
+
+                                        <div class="limit">
+                                            <p>{{ product.max_height }}</p>
+                                            <input id="max_height" type="hidden" aria-hidden="false" value="{{ product.max_height }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="width: 100%; display: flex;">
+                                <input type="submit" value="Подтвердить параметры" style="margin: 20px auto;">
+                            </div>
+
+                        </form>
                         <!-- подкладка -->
-                        <div class="parameter" id="lining">
-                            <div class="param_title">
-                                <p>Подкладка:</p>
-                            </div>
-                            <div class="select_div">
-
-                                <select id="selectvalue">
-                                    <option class="select-item">Без подкладки</option>
-                                    <option class="select-item">С подкладочной тканью</option>
-                                    <option class="select-item">С тканью BlackOut</option>
-                                </select>
-
-                            </div>
-                        </div>
+{#                        <div class="parameter" id="lining">#}
+{#                            <div class="param_title">#}
+{#                                <p>Подкладка:</p>#}
+{#                            </div>#}
+{#                            <div class="select_div">#}
+{##}
+{#                                <select id="selectvalue">#}
+{#                                    <option class="select-item">Без подкладки</option>#}
+{#                                    <option class="select-item">С подкладочной тканью</option>#}
+{#                                    <option class="select-item">С тканью BlackOut</option>#}
+{#                                </select>#}
+{##}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
-                    <div class="price"><p id="price">{{ product.price }}</p>
-                        <p>руб.</p></div>
+
                     <div class="show_add">
 
-                        <form action="/order/addtoshopcart/{{ product.id }}" method="post">
+                        <form enctype="multipart/form-data" action="/order/addtoshopcart/{{ product.id }}" method="post">
                             {% csrf_token %}
+                            <input type="hidden" aria-hidden="true"  name="product_price" value="{{ product_price }}">
+                            <input type="hidden" aria-hidden="true"  name="width_rome" value="{{ width_rome }}">
+                            <input type="hidden" aria-hidden="true"  name="height_rome" value="{{ height_rome }}">
+                            <div class="price" name="price"><p id="price">{{ product_price }}</p>
+                                <p>руб.</p>
+                            </div>
+
                             <div class="qty-input" style="display: flex">
                                 <p class="qty-text">Кол-во</p>
                                 <input name="quantity" class="input" type="number" min="1" value="1">
@@ -272,7 +290,7 @@
                                             <div class="single-review">
                                                 <div class="review-heading">
                                                     <div><a href="#"><i
-                                                            class="fa fa-user-o"></i>{{ rs.user.first_name }}</a></div>
+                                                            class="fa fa-user-o"></i>{{ rs.subject }}</a></div>
                                                     <div class="clock"><a href="#"><i
                                                             class="fa fa-clock-o"></i>{{ rs.create_at|date:"d-m-Y   / H:i" }}
                                                     </a>
@@ -308,7 +326,7 @@
                                           method="post">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <input name="subject" class="input" type="text" placeholder="Имя"
+                                            <input name="subject" class="input" type="text" placeholder="Имя" value="{{ user.first_name }}"
                                                    title="Jopa"/>
                                         </div>
                                         {#                                        <div class="form-group">#}

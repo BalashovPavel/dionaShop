@@ -34,11 +34,10 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('phone', 'address', 'city', 'country')
+        fields = ('phone', 'address', 'city')
         widgets = {
             'phone': TextInput(attrs={'class': 'input', 'placeholder': 'phone'}),
             'address': TextInput(attrs={'class': 'input', 'placeholder': 'address'}),
             'city': TextInput(attrs={'class': 'input', 'placeholder': 'city'}),
-            'country': TextInput(attrs={'class': 'input', 'placeholder': 'country'}),
             # 'image': FileInput(attrs={'class': 'input', 'placeholder': 'image', }),
         }

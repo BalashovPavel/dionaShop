@@ -116,7 +116,7 @@
                     {% for prod in products %}
 
 
-                        <li class="product-wrapper true {{ prod.variant }} tr_ctr {{ prod.country }}">
+                        <li class="product-wrapper true {{ prod.color }} tr_ctr {{ prod.country }}">
                             <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
                                 <div class="product-photo">
                                     <img src="{{ prod.image.url }}" alt="">

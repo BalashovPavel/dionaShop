@@ -1,11 +1,13 @@
+import django_filters
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 
 from django.db import models
 from django.db.models import Avg, Count
-from django.forms import ModelForm
+from django.forms import ModelForm, CheckboxSelectMultiple
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django_filters import filters
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
@@ -57,14 +59,12 @@ class Product(models.Model):
     )
 
     VARIANTS = (
-        ('none', 'Нет'),
         ('white', 'Белый'),
         ('black', 'Чёрный'),
         ('green', 'Зелённый'),
     )
 
     COUNTRY = (
-        ('none', 'Нет'),
         ('turkey', 'Турция'),
         ('russia', 'Россия'),
         ('china', 'Китай'),
@@ -75,11 +75,22 @@ class Product(models.Model):
     keywords = models.CharField(max_length=255, verbose_name='Ключевое слово')
     description = models.CharField(max_length=255, verbose_name='Описание')
     image = models.ImageField(upload_to='images/', null=False, verbose_name='Изображение')
-    price = models.DecimalField(max_digits=12, decimal_places=0, default=0, verbose_name='Цена')  # Цена
-    amount = models.IntegerField(default=0, verbose_name='Кол-во')  # Кол-во
+
+    price_rome_cornice = models.IntegerField(default=0, verbose_name='Цена римского карниза', null=True)
+    price_rome_cloth = models.IntegerField(default=0, verbose_name='Цена ткани для римскиой шторы', null=True)
+
+    price = models.IntegerField( default=0, verbose_name='Цена товара', null=False)  # Цена
+
+    min_width = models.IntegerField( verbose_name='Минимальная ширина (см.)')
+    max_width = models.IntegerField( verbose_name='Максимальная ширина (см.)')
+    min_height = models.IntegerField( verbose_name='Минимальная высота (см.)')
+    max_height = models.IntegerField( verbose_name='Максимальная высота (см.)')
+
+
+    # amount = models.IntegerField(default=0, verbose_name='Кол-во')  # Кол-во
     # min_amount = models.IntegerField(default=3) # Минимальное кол-во
-    variant = models.CharField(max_length=10, choices=VARIANTS, default='None', verbose_name='Цвет')  #
-    country = models.CharField(max_length=10, choices=COUNTRY, default='None', verbose_name='Страна')  #
+    color = models.CharField(max_length=10, choices=VARIANTS, verbose_name='Цвет')  #
+    country = models.CharField(max_length=10, choices=COUNTRY, verbose_name='Страна')  #
     detail = RichTextUploadingField(verbose_name='Детали')  # Детали (CKeditor)
     slug = models.SlugField(null=False, unique=True, verbose_name='Метка')
     status = models.CharField(max_length=10, choices=STATUS, verbose_name='Статус')
@@ -116,6 +127,21 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        # ordering = ['id']
+
+
+# class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
+#     pass
+
+
+class ProductFilter(django_filters.FilterSet):
+    country = filters.MultipleChoiceFilter(field_name='country', choices=Product.COUNTRY, widget=CheckboxSelectMultiple)
+    variant = filters.MultipleChoiceFilter(field_name='variant', choices=Product.VARIANTS, widget=CheckboxSelectMultiple)
+    price = filters.RangeFilter()
+
+    class Meta:
+        model = Product
+        fields = ['price', 'variant', 'country']
 
 
 class Images(models.Model):

@@ -9,8 +9,8 @@ class SettingAdmin(admin.ModelAdmin):
 
 
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'subject', 'update_at', 'status']
-    readonly_fields = ('name', 'subject', 'email', 'message', 'ip')
+    list_display = ['name', 'update_at', 'status']
+    readonly_fields = ('name', 'email', 'message', 'ip')
     list_filter = ['status']
 
 class FAQAdmin(admin.ModelAdmin):
