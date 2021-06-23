@@ -52,6 +52,12 @@
                                 <th class="text-left">Имя</th>
                                 <td class="text-left">{{ order.first_name }} {{ order.last_name }} </td>
                             </tr>
+
+                            <tr>
+                                <th class="text-left">Email</th>
+                                <td class="text-left">{{ order.email }}</td>
+                            </tr>
+
                             <tr>
                                 <th class="text-left">Телефон</th>
                                 <td class="text-left">{{ order.phone }}</td>
@@ -75,7 +81,27 @@
                             </tr>
 
                             <tr>
-                                <th class="text-left">Сумма</th>
+                                <th class="text-left">Способ доставки</th>
+                                {% if order.delivery == 'Курьер' %}
+                                    <td class="text-left">Курьерской службой</td>
+                                {% else %}
+                                    <td class="text-left">Самовывоз</td>
+                                {% endif %}
+                            </tr>
+
+                            <tr>
+                                <th class="text-left">Цена доставки</th>
+                                {% if order.delivery == 'Курьер' %}
+                                    <td class="text-left">200 <i class="fa fa-rub"
+                                                                 aria-hidden="true"></i></td>
+                                {% else %}
+                                    <td class="text-left">0 <i class="fa fa-rub"
+                                                               aria-hidden="true"></i></td>
+                                {% endif %}
+                            </tr>
+
+                            <tr>
+                                <th class="text-left">Общая сумма заказа</th>
                                 <td class="text-left">{{ order.total }} <i class="fa fa-rub"
                                                                            aria-hidden="true"></i></td>
                             </tr>
@@ -111,7 +137,7 @@
                                 <th class="h-total">
                                     Итого
                                 </th>
-                                <th class="h-delete">
+                                <th class="h-delete" >
 
                                 </th>
                             </tr>
@@ -133,7 +159,7 @@
                                     </td>
                                     <td class="b-price">
                                         <span id="price">{{ rs.price }} <i class="fa fa-rub"
-                                                                                   aria-hidden="true"></i></span>
+                                                                           aria-hidden="true"></i></span>
                                     </td>
                                     <td class="b-count">
                                         <p>{{ rs.quantity }}</p>

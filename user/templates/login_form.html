@@ -36,28 +36,30 @@
                     {% endif %}
                     <div class="tabs__content">
                         <div class="tabs__pane tabs__pane_show" id="content-1">
-                            <form class="tab-texts" action=""  method="post">
+                            <form class="signup_form" action="" method="post" id="">
                                 {% csrf_token %}
-                                <div class="tab-title">Вход</div>
+                                {#                                <div class="tab-title">Вход</div>#}
                                 <div class="tab-text">
                                     <div class="login-input">
-                                        <label for="">Логин</label>
+                                        <label for="">Логин:</label>
                                         <div><input type="text" name="username" class="input" required></div>
                                     </div>
                                     <div class="login-input">
-                                        <label for="">Пароль</label>
+                                        <label for="">Пароль:</label>
                                         <div><input type="password" name="password" class="input"
                                                     autocomplete="current-password" required></div>
                                     </div>
-                                    <p>
+                                    <div class="login-input">
                                         <input id="submit" value="Войти" type="submit">
-                                    </p>
+                                    </div>
+                                    <div style=" width: 100%; display: flex; justify-content: center;"><a href="/signup">Регистрация</a></div>
                                 </div>
                             </form>
 
 
                         </div>
                     </div>
+
                 </div>
 
             </div>

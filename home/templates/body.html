@@ -30,64 +30,79 @@
                     {% for prod in products_slider %}
 
 
-                    <li class="product-wrapper">
-                        <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
-                            <div class="product-photo">
-                                <img src="{{ prod.image.url }}" alt="">
-                            </div>
-                            <div class="product-title">{{ prod.title }}</div>
-                            {% rateproduct prod.id as rate %}
-                                <div class="review-rating pull-right" id="avarege_review" style="float: none; position: relative; margin: auto; width: 86%;">
-                                    <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>
-                                    <span> ({{ rate | floatformat }})</span>
+                        <li class="product-wrapper">
+                            <a href="/product/{{ prod.id }}/{{ prod.slug }}" class="product">
+                                <div class="product-photo">
+                                    <img src="{{ prod.image.url }}" alt="">
                                 </div>
-                            <div class="product-price">{{ prod.price }} руб.</div>
-                        </a>
-                    </li>
+                                <div class="product-title">{{ prod.title }}</div>
+                                {% rateproduct prod.id as rate %}
+                                <div class="review-rating pull-right" id="avarege_review"
+                                     style="float: none; position: relative; margin: auto; width: 86%;">
+                                    <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
+{#                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>#}
+                                    <span> {{ rate | floatformat }}</span>
+                                    <span></span>
+                                    <span>
+                                        {% if prod.count_review == 0 %}
+                                            (Нет отзывов)
+                                        {% elif prod.count_review == 1 %}
+                                            ({{ prod.count_review }} отзыв)
+                                        {% elif prod.count_review > 1 %}
+                                            {% if prod.count_review < 5 %}
+                                                ({{ prod.count_review }} отзыва)
+                                            {% else %}
+                                                ({{ prod.count_review }} отзывов)
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="product-price">{{ prod.price }} руб.</div>
+                            </a>
+                        </li>
 
 
                     {% endfor %}
 
-{#                    <li class="product-wrapper">#}
-{#                        <a href="" class="product">#}
-{#                            <div class="product-photo">#}
-{#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-{#                            </div>#}
-{#                            <div class="product-title">Римская штора с карнизом Simone 4</div>#}
-{#                            <div class="product-price">от 4220 руб.</div>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li class="product-wrapper">#}
-{#                        <a href="" class="product">#}
-{#                            <div class="product-photo">#}
-{#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-{#                            </div>#}
-{#                            <div class="product-title">Название большое длинное 1</div>#}
-{#                            <div class="product-price">от 4220 руб.</div>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li class="product-wrapper">#}
-{#                        <a href="" class="product">#}
-{#                            <div class="product-photo">#}
-{#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
-{#                            </div>#}
-{#                            <div class="product-title">Название большое длинное 1</div>#}
-{#                            <div class="product-price">от 4220 руб.</div>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li class="product-wrapper">#}
-{#                        <a href="" class="product">#}
-{#                            <div class="product-photo">#}
-{#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
-{#                            </div>#}
-{#                            <div class="product-title">Название большое длинное 1</div>#}
-{#                            <div class="product-price">от 4220 руб.</div>#}
-{#                        </a>#}
-{#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Римская штора с карнизом Simone 4</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Diana-M2-border.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+                    {#                    <li class="product-wrapper">#}
+                    {#                        <a href="" class="product">#}
+                    {#                            <div class="product-photo">#}
+                    {#                                <img src="{% static '' %}images/Roman-blind-front-view-Sophie-24.jpg" alt="">#}
+                    {#                            </div>#}
+                    {#                            <div class="product-title">Название большое длинное 1</div>#}
+                    {#                            <div class="product-price">от 4220 руб.</div>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
 
 
                 </ul>
@@ -100,42 +115,51 @@
                 </div>
             </div>
         </div>
-{#        <div class="tab-order">#}
-{#            <div class="new-page-cont">#}
-{#                <div class="new-page-title">#}
-{#                    <p>Как мы работаем?</p>#}
-{#                </div>#}
-{#                <div class="tabs">#}
-{#                    <div class="tabs__nav">#}
-{#                        <a class="tabs__link tabs__link_active" href="#content-1">1</a>#}
-{#                        <a class="tabs__link" href="#content-2">2</a>#}
-{#                        <a class="tabs__link" href="#content-3">3</a>#}
-{#                    </div>#}
-{#                    <div class="tabs__content">#}
-{#                        <div class="tabs__pane tabs__pane_show" id="content-1">#}
-{#                            <div class="tab-img"></div>#}
-{#                            <div class="tab-texts">#}
-{#                                <div class="tab-title">Шаг первый</div>#}
-{#                                <div class="tab-text">Вы осталяете заявку на сайте, звоните или<br/>приходите к нам#}
-{#                                    в#}
-{#                                    салон.<br/><br/>#}
-{#                                    Мы вам перезванием, обговариваем<br/> детали по пошиву и выбору ткани.#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                        <div class="tabs__pane" id="content-2">#}
-{#                            <div class="tab-img"></div>#}
-{#                            <div class="tab-text">2</div>#}
-{#                        </div>#}
-{#                        <div class="tabs__pane" id="content-3">#}
-{#                            <div class="tab-img"></div>#}
-{#                            <div class="tab-text"></div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
+        {#        <div class="tab-order">#}
+        {#            <div class="new-page-cont">#}
+        {#                <div class="new-page-title">#}
+        {#                    <p>Как мы работаем?</p>#}
+        {#                </div>#}
+        {#                <div class="tabs">#}
+        {#                    <div class="tabs__nav">#}
+        {#                        <a class="tabs__link tabs__link_active" href="#content-1">1</a>#}
+        {#                        <a class="tabs__link" href="#content-2">2</a>#}
+        {#                        <a class="tabs__link" href="#content-3">3</a>#}
+        {#                    </div>#}
+        {#                    <div class="tabs__content">#}
+        {#                        <div class="tabs__pane tabs__pane_show" id="content-1">#}
+        {#                            <div class="tab-img"></div>#}
+        {#                            <div class="tab-texts">#}
+        {#                                <div class="tab-title">Шаг первый</div>#}
+        {#                                <div class="tab-text">Вы осталяете заявку на сайте, звоните или<br/>приходите к нам#}
+        {#                                    в#}
+        {#                                    салон.<br/><br/>#}
+        {#                                    Мы вам перезванием, обговариваем<br/> детали по пошиву и выбору ткани.#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                        <div class="tabs__pane" id="content-2">#}
+        {#                            <div class="tab-img"></div>#}
+        {#                            <div class="tab-text">2</div>#}
+        {#                        </div>#}
+        {#                        <div class="tabs__pane" id="content-3">#}
+        {#                            <div class="tab-img"></div>#}
+        {#                            <div class="tab-text"></div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
         <div class="page-request">
+            <div class="page-request__title">
+                    <div>
+                        <hr class="hr-line">
+                    </div>
+                    <div class="answer"><p>Задайте вопрос</p></div>
+                    <div>
+                        <hr class="hr-line">
+                    </div>
+            </div>
             <div class="request-cont">
                 <div class="request-img">
                     <div class="slideshow-container">
@@ -186,13 +210,13 @@
                     </form>
 
                 </div>
-                {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ message.tags}}" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+{#                {% if messages %}#}
+{#                    {% for message in messages %}#}
+{#                        <div class="alert alert-{{ message.tags }}" role="alert">#}
+{#                            {{ message }}#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
             </div>
         </div>
     </div>

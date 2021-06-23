@@ -40,26 +40,30 @@
                         <div class="order_form">
                             <p><label for="id_first_name">Имя:</label>
                                 <input type="text" name="first_name" value="{{ user.first_name }}" class="input"
-                                       maxlength="10" required id="id_first_name">
+                                       maxlength="10" required="required" id="id_first_name">
                             </p>
                             <p><label for="id_last_name">Фамилия:</label>
                                 <input type="text" name="last_name" value="{{ user.last_name }}" class="input"
-                                       maxlength="10" required id="id_last_name">
+                                       maxlength="10" required="required" id="id_last_name">
                             </p>
                             <p><label for="id_city">Город:</label>
-                                <input type="text" name="city" class="input" id="id_city" value="{{ profile.city }}">
+                                <input type="text" required="required" name="city" class="input" id="id_city"
+                                       value="{{ profile.city }}">
                             </p>
                             <p><label for="id_address">Адрес:</label>
-                                <input type="text" name="address" value="{{ profile.address }}" class="input"
+                                <input type="text" required="required" name="address" value="{{ profile.address }}"
+                                       class="input"
                                        maxlength="150" id="id_address">
                             </p>
                             <p><label for="id_email">Email:</label>
-                                <input type="text" name="email" value="{{ profile.email }}" class="input"
+                                <input type="text" required="required" name="email" value="{{ profile.email }}"
+                                       class="input"
                                        maxlength="100"
                                        id="id_email">
                             </p>
                             <p><label for="id_phone">Телефон:</label>
-                                <input type="text" name="phone" value="{{ profile.phone }}" class="input" maxlength="20"
+                                <input type="text" required="required" name="phone" value="{{ profile.phone }}"
+                                       class="input" maxlength="20"
                                        id="id_phone">
                             </p>
 
@@ -109,7 +113,7 @@
                                         </td>
                                         <td class="b-price">
                                         <span id="price">{{ rs.price }} <i class="fa fa-rub"
-                                                                                   aria-hidden="true"></i></span>
+                                                                           aria-hidden="true"></i></span>
                                         </td>
                                         <td class="b-count">
                                             <p>{{ rs.quantity }}</p>
@@ -118,13 +122,13 @@
                                         <span id="price">{{ rs.amount }} <i class="fa fa-rub"
                                                                             aria-hidden="true"></i></span>
                                         </td>
-{#                                        <td class="b-delete">#}
-{#                                            <a href="/order/deletefromcart/{{ rs.id }}"#}
-{#                                               onclick="return confirm('Удалить! Вы уверены?')">#}
-{#                                                <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"#}
-{#                                                                    aria-hidden="true"></i></button>#}
-{#                                            </a>#}
-{#                                        </td>#}
+                                        {#                                        <td class="b-delete">#}
+                                        {#                                            <a href="/order/deletefromcart/{{ rs.id }}"#}
+                                        {#                                               onclick="return confirm('Удалить! Вы уверены?')">#}
+                                        {#                                                <button class=""><i title="Удалить из корзины" class="fa fa-trash-o"#}
+                                        {#                                                                    aria-hidden="true"></i></button>#}
+                                        {#                                            </a>#}
+                                        {#                                        </td>#}
                                     </tr>
 
                                 {% endfor %}
@@ -139,31 +143,51 @@
                             <p>Доставка</p>
                         </div>
                         <div class="block_final_price_count">
-                            <ul style="padding-left: 0px; list-style: none; width: 100%" >
-                                <li style="display: flex; justify-content: space-around"><input type="radio" name="delivery" id="" checked value="200"> <p style="width: min-content; width: -moz-min-content">Курьерской службой 200р.</p></li>
-                                <li style="display: flex; justify-content: space-around"><input type="radio" name="delivery" id="" value="0"> <p style="width: min-content; width: -moz-min-content">Самовывоз бесплатно</p></li>
-                            </ul>
+
+                            <script>
+
+
+                                function react1() {
+                                    var jopa = document.querySelector('#total_price_order');
+                                    jopa.innerHTML = {{ total }};
+                                }
+
+                                function react2() {
+                                    var jopa = document.querySelector('#total_price_order');
+                                    jopa.innerHTML = {{ total }} - 200;
+                                }
+                            </script>
+
+                            <input onchange="react1()" type="radio" checked name="delivery" id="dont_free_delivery"
+                                   value="Курьер">
+                            <span>Доставка<p>200р.</p> </span>
+                            <input onchange="react2()" type="radio" name="delivery" id="free_delivery" value="Самовывоз">
+                            <p>Самовывоз бесплатно</p>
+
                         </div>
                         <div class="block_final_price_title">
                             <p>Сумма заказа</p>
                         </div>
                         <div class="block_final_price_final">
-                            <span id="price">{{ total }}<i class="fa fa-rub" aria-hidden="true"></i></span>
+                            <span id="total_price_order">{{ total }}</span><i class="fa fa-rub" aria-hidden="true"></i>
                         </div>
                         <div class="block_final_price_title">
                             <p>Оплата</p>
                         </div>
                         <div class="block_final_price_count">
                             <ul>
-                                <li><input type="radio" name="pay" id="" checked> <span>Онлайн</span></li>
-                                <li><input type="radio" name="pay" id=""> <span>Карта</span></li>
-                                <li><input type="radio" name="pay" id=""> <span>Наличными</span></li>
+                                <li><input type="radio" name="pay" id="" checked="checked" value="Картой онлайн"> <span>Картой онлайн</span>
+                                </li>
+                                <li><input type="radio" name="pay" id="" value="При получении">
+                                    <span>При получении</span></li>
                             </ul>
                         </div>
                         <div class="block_final_price_button">
-                            <a href="">
-                                <button type="submit" class="btn_checkout">Перейти к оплате</button>
-                            </a>
+                            {% if shopcart.count >= 1 %}
+                                <a href="">
+                                    <button type="submit" class="btn_checkout">Перейти к оплате</button>
+                                </a>
+                            {% endif %}
                         </div>
 
                     </aside>

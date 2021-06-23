@@ -6,6 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.utils.crypto import get_random_string
 
+
 from order.models import ShopCart, ShopCartForm, OrderForm, Order, OrderProduct
 from product.models import Category, Product
 from user.models import UserProfile
@@ -48,7 +49,7 @@ def addtoshopcart(request, id):
         data.width = int(request.POST['width_rome'])
         data.height = int(request.POST['height_rome'])
         data.save()
-        messages.success(request, "Product added to Shopcart ")
+        messages.success(request, "Товар добавлен в корзину ")
         return HttpResponseRedirect(url)
 
     # else:  # if there is no post
@@ -70,6 +71,7 @@ def shopcart(request):
     category = Category.objects.all()
     current_user = request.user  # Access User Session information
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+
     # for rs in shopcart:
     #     rs.quantity = int(request.POST['quantity_in_shopcart'])
 
@@ -92,7 +94,10 @@ def shopcart(request):
 
 @login_required(login_url='/login')  # Check login
 def changefromcart(request, id):
-    qty = int(request.POST['quantity_in_shopcart'])
+    qty = request.POST['quantity_in_shopcart']
+    sets = set(".,:;!_*-+()/#¤%&)").isdisjoint(qty)
+    if qty == 0 or qty == '0' or qty == '' or sets == False:
+        return HttpResponseRedirect("/shopcart")
     cart_product = ShopCart.objects.get(pk=id)
     cart_product.quantity = qty
     cart_product.save()
@@ -109,16 +114,29 @@ def deletefromcart(request, id):
     return HttpResponseRedirect("/shopcart")
 
 
+# @login_required(login_url='/login')  # Check login
+# def delivery_form(request, id):
+#     delivery = request.POST['delivery']
+#     # cart_product = ShopCart.objects.get(pk=id)
+#     # cart_product.quantity = qty
+#     # cart_product.save()
+#     # messages.success(request, "Количество товара "+cart_product.product.title+' изменено')
+#     return HttpResponseRedirect("/shopcart")
+
+
 def orderproduct(request):
     category = Category.objects.all()
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    total = 0
+    total = 200
     for rs in shopcart:
         total += (rs.price * rs.quantity)
 
     if request.method == 'POST':  # if there is a post
         form = OrderForm(request.POST)
+        Order.delivery = request.POST['delivery']
+        if Order.delivery == 'Самовывоз':
+            total -= 200
         # return HttpResponse(request.POST.items())
         if form.is_valid():
 
@@ -127,7 +145,10 @@ def orderproduct(request):
             data.last_name = form.cleaned_data['last_name']
             data.address = form.cleaned_data['address']
             data.city = form.cleaned_data['city']
+            data.email = form.cleaned_data['email']
             data.phone = form.cleaned_data['phone']
+            data.delivery = form.cleaned_data['delivery']
+            data.pay = form.cleaned_data['pay']
             data.user_id = current_user.id
             data.total = total
             ordercode = get_random_string(5).upper()  # random cod

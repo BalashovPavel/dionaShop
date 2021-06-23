@@ -48,13 +48,28 @@ class Order(models.Model):
         ('Доставлен', 'Доставлен'),
         ('Отменён', 'Отменён'),
     )
+
+    DELIVERY = (
+        ('Курьер', 'Курьер'),
+        ('Самовывоз', 'Самовывоз'),
+    )
+
+    PAY = (
+        ('Картой онлайн', 'Картой онлайн'),
+        ('При получении', 'При получении'),
+
+    )
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=5, unique=True)
-    first_name = models.CharField(max_length=10)
+    first_name = models.CharField(blank=False, max_length=10)
     last_name = models.CharField(max_length=10)
-    phone = models.CharField(blank=True, max_length=20)
-    address = models.CharField(blank=True, max_length=150)
-    city = models.CharField(blank=True, max_length=20)
+    phone = models.CharField(blank=False, max_length=20)
+    email = models.CharField(blank=False, max_length=50)
+    address = models.CharField(blank=False, max_length=150)
+    city = models.CharField(blank=False, max_length=20)
+    delivery = models.CharField(blank=False,max_length=20, choices=DELIVERY, default='Курьер')
+    pay = models.CharField(blank=False,max_length=50, choices=PAY, default='Картой онлайн')
     total = models.FloatField()
     status = models.CharField(max_length=20, choices=STATUS, default='Новый')
     adminnote = models.CharField(blank=True, max_length=100)
@@ -62,7 +77,7 @@ class Order(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.first_name
+        return self.code
 
     class Meta:
         verbose_name = 'Заказ'
@@ -72,7 +87,7 @@ class Order(models.Model):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'address', 'phone', 'city']
+        fields = ['first_name', 'last_name', 'address', 'phone', 'city', 'email', 'delivery', 'pay']
 
 
 class OrderProduct(models.Model):
@@ -81,6 +96,9 @@ class OrderProduct(models.Model):
         ('Принят', 'Принят'),
         ('Отменён', 'Отменён'),
     )
+
+
+
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

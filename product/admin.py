@@ -1,7 +1,7 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
-from product.models import Category, Product, Images, Comment
+from product.models import Category, Product, Images, Review
 
 
 class CategoryAdmin(admin.ModelAdmin):  # добавляет в админку фильтр Категории
@@ -53,23 +53,25 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'country', 'status', 'image_tag']
-    list_filter = ['status', 'category']
-    readonly_fields = ('image_tag',)
+    list_display = ['title', 'article', 'rate','category', 'country', 'status', 'image_tag']
+    list_filter = ['status', 'category', 'color', 'country']
+    readonly_fields = ('image_tag', 'article', 'avarege_review', 'rate')
     inlines = [ProductImageInline]
     prepopulated_fields = {'slug': ('title',)}
+    search_fields = ['title']
 
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['status', 'product', 'rate', 'user', 'subject',  'create_at']
-    list_filter = ['status']
+    list_filter = ['status', 'rate']
     readonly_fields = ('product', 'rate', 'comment', 'user', 'subject')
     # inlines = [ProductImageInline]
     # prepopulated_fields = {'slug': ('title',)}
+    search_fields = ['subject', 'comment']
 
 
 # admin.site.register(Category, CategoryAdmin)  # добавляет в админку Категории
 admin.site.register(Category, CategoryAdminTwo)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Review, CommentAdmin)
 # admin.site.register(Images)

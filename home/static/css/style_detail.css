@@ -258,7 +258,7 @@ option {
 /*  Цена   */
 
 .price {
-    margin: 30px 0;
+    margin: 20px 0;
     display: flex;
     line-height: 1;
 }
@@ -270,7 +270,7 @@ option {
 }
 
 .price #price {
-    margin-left: .5rem;
+    margin-left: 0px;
     font-size: 30px;
     align-self: flex-end;
 }
@@ -625,4 +625,37 @@ form .primary-btn:hover {
     box-shadow: 0px 0px 1px 0px #35353521;
     -webkit-transition: 0.3s all;
     transition: 0.3s all;
+}
+
+
+#submit-configuration{
+    display: flex;
+    width: 100%;
+}
+
+#submit-configuration input{
+    cursor: pointer;
+    width: 170px;
+    height: 30px;
+    background: white;
+    border: solid 1px #202020;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px #7a7a7a54;
+}
+
+.qty-input{
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.qty-input input{
+    width: 50px;
+    margin-left: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.review-text{
+    font-size: 15px;
+    margin-left: 5px;
 }

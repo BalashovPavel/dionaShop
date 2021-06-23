@@ -1,11 +1,12 @@
 .section {
     max-width: 100vw;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
 .user_profil-wrapper {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
+    min-height: 50vh;
 }
 
 .user_profil-wrapper ul {
@@ -33,8 +34,15 @@
 }
 
 .user_title {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.user_title__profile {
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
 .user-aside li {
@@ -54,7 +62,7 @@
 }
 
 .profil_wrapper {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 }
 
@@ -68,13 +76,14 @@
 
 .primary-btn input {
     cursor: pointer;
-    border: solid 2px rgba(0, 0, 0, 0.705);
+    border: solid 1px #9797979c;
     background-color: rgb(250, 250, 250);
-    width: 180px;
-    height: 36px;
-    font-size: 15px;
+    width: 150px;
+    height: 33px;
+    font-size: 14px;
     font-weight: 400;
     margin-right: 10px;
+    box-shadow: 0 0 6px 0 #a1a1a116;
 }
 
 table .fa-user {
@@ -97,4 +106,49 @@ table .fa-user {
     width: 30%;
     text-align: start;
     padding: 6px 10px;
+}
+
+.profil_wrapper__list {
+    width: fit-content;
+    width: -moz-fit-content;
+    margin: 20px 0;
+}
+
+.profil_wrapper__items {
+    display: flex;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.profil_wrapper__item-title {
+    font-weight: 600;
+    /*margin-right: 10px;*/
+    width: 200px;
+}
+
+.h-delete__profile a{
+    padding: 3px 5px ;
+    text-decoration: none;
+    color: #292929;
+    border: solid 2px #292929;
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.h-delete__profile a:hover{
+    color: #ffffff;
+    background: #373230;
+    transition: all 0.3s;
+}
+
+.alert {
+    width: fit-content;
+    width: -moz-fit-content;
+    padding: 5px 20px;
+    border: solid 3px #7ab776;
+    background: white;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #7ab776;
 }

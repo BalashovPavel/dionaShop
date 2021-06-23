@@ -8,21 +8,23 @@
 
 {% block body %}
 
-    <div id="breadcrumb">
-        <div class="card-wrapper">
-            <ul class="breadcrumb" style="display: flex">
-                <li><a href="/">Главная</a></li>
-                <li class="">/</li>
-                <li class="">Профиль</li>
-            </ul>
-        </div>
-    </div>
+
 
 
 
     <div class="section">
 
         <div class="user_profil-wrapper">
+
+            <div id="breadcrumb">
+                <div class="card-wrapper">
+                    <ul class="breadcrumb" style="display: flex">
+                        <li><a href="/">Главная</a></li>
+                        <li class="">/</li>
+                        <li class="">Профиль</li>
+                    </ul>
+                </div>
+            </div>
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}" role="alert">
@@ -42,51 +44,80 @@
                 <div class="user_profil">
 
                     <div class="profil_wrapper">
-                        <div class="user_title">
+                        <div class="user_title__profile">
                             <p>Профиль</p>
                         </div>
 
-                        <table>
-                            <tr>
-                                <th class="user_profile-text">
-                                    <a href="/user/update" class="primary-btn"><input type="button"
-                                                                                      value="Изменить профиль"></a>
-                                    <a href="/user/password" class="primary-btn"><input type="button"
-                                                                                        value="Изменить пароль"></a>
-                                </th>
-                                <td>
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user"
-                                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                         class="svg-inline--fa fa-user fa-w-14 fa-6x">
-                                        <path fill="currentColor"
-                                              d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"
-                                              class=""></path>
-                                    </svg>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-left">Имя Фамилия</th>
-                                <td class="text-left">{{ user.first_name }} {{ user.last_name }} </td>
-                            </tr>
-                            <tr>
-                                <th class="text-left">Email</th>
-                                <td class="text-left">{{ profile.user.email }}</td>
-                                <htr
-                            </tr>
-                            <tr>
-                                <th class="text-left">Телефон</th>
-                                <td class="text-left">{{ profile.phone }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-left">Город</th>
-                                <td class="text-left">{{ profile.city }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-left">Адрес</th>
-                                <td class="text-left">{{ profile.address }}</td>
-                            </tr>
+                        <div class="profil_wrapper__update">
+                            <a href="/user/update" class="primary-btn"><input type="button"
+                                                                              value="Изменить профиль"></a>
+                            <a href="/user/password" class="primary-btn"><input type="button"
+                                                                                value="Изменить пароль"></a>
+                        </div>
 
-                        </table>
+                        <div class="profil_wrapper__list">
+                            <div class="profil_wrapper__items">
+                                <div class="profil_wrapper__item-title">Имя Фамилия:</div>
+                                <div class="profil_wrapper__item-content">{{ user.first_name }} {{ user.last_name }}</div>
+                            </div>
+                            <div class="profil_wrapper__items">
+                                <div class="profil_wrapper__item-title">Email:</div>
+                                <div class="profil_wrapper__item-content">{{ profile.user.email }}</div>
+                            </div>
+                            <div class="profil_wrapper__items">
+                                <div class="profil_wrapper__item-title">Телефон:</div>
+                                <div class="profil_wrapper__item-content">{{ profile.phone }}</div>
+                            </div>
+                            <div class="profil_wrapper__items">
+                                <div class="profil_wrapper__item-title">Город:</div>
+                                <div class="profil_wrapper__item-content">{{ profile.city }}</div>
+                            </div>
+                            <div class="profil_wrapper__items">
+                                <div class="profil_wrapper__item-title">Адрес:</div>
+                                <div class="profil_wrapper__item-content">{{ profile.address }}</div>
+                            </div>
+                        </div>
+
+                        {#                        <table>#}
+                        {#                            <tr>#}
+                        {#                                <th class="user_profile-text">#}
+                        {#                                    <a href="/user/update" class="primary-btn"><input type="button"#}
+                        {#                                                                                      value="Изменить профиль"></a>#}
+                        {#                                    <a href="/user/password" class="primary-btn"><input type="button"#}
+                        {#                                                                                        value="Изменить пароль"></a>#}
+                        {#                                </th>#}
+                        {#                                <td>#}
+                        {#                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user"#}
+                        {#                                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"#}
+                        {#                                         class="svg-inline--fa fa-user fa-w-14 fa-6x">#}
+                        {#                                        <path fill="currentColor"#}
+                        {#                                              d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"#}
+                        {#                                              class=""></path>#}
+                        {#                                    </svg>#}
+                        {#                                </td>#}
+                        {#                            </tr>#}
+                        {#                            <tr>#}
+                        {#                                <th class="text-left">Имя Фамилия</th>#}
+                        {#                                <td class="text-left">{{ user.first_name }} {{ user.last_name }} </td>#}
+                        {#                            </tr>#}
+                        {#                            <tr>#}
+                        {#                                <th class="text-left">Email</th>#}
+                        {#                                <td class="text-left">{{ profile.user.email }}</td>#}
+                        {#                            </tr>#}
+                        {#                            <tr>#}
+                        {#                                <th class="text-left">Телефон</th>#}
+                        {#                                <td class="text-left">{{ profile.phone }}</td>#}
+                        {#                            </tr>#}
+                        {#                            <tr>#}
+                        {#                                <th class="text-left">Город</th>#}
+                        {#                                <td class="text-left">{{ profile.city }}</td>#}
+                        {#                            </tr>#}
+                        {#                            <tr>#}
+                        {#                                <th class="text-left">Адрес</th>#}
+                        {#                                <td class="text-left">{{ profile.address }}</td>#}
+                        {#                            </tr>#}
+                        {##}
+                        {#                        </table>#}
                     </div>
 
                 </div>

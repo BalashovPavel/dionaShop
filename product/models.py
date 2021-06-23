@@ -11,6 +11,8 @@ from django_filters import filters
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
+from django.forms.widgets import HiddenInput
+
 
 class Category(MPTTModel):
     STATUS = (
@@ -75,22 +77,18 @@ class Product(models.Model):
     keywords = models.CharField(max_length=255, verbose_name='Ключевое слово')
     description = models.CharField(max_length=255, verbose_name='Описание')
     image = models.ImageField(upload_to='images/', null=False, verbose_name='Изображение')
-
     price_rome_cornice = models.IntegerField(default=0, verbose_name='Цена римского карниза', null=True)
     price_rome_cloth = models.IntegerField(default=0, verbose_name='Цена ткани для римскиой шторы', null=True)
-
-    price = models.IntegerField( default=0, verbose_name='Цена товара', null=False)  # Цена
-
+    price = models.IntegerField( default=0, verbose_name='Цена товара', null=False)
     min_width = models.IntegerField( verbose_name='Минимальная ширина (см.)')
     max_width = models.IntegerField( verbose_name='Максимальная ширина (см.)')
     min_height = models.IntegerField( verbose_name='Минимальная высота (см.)')
     max_height = models.IntegerField( verbose_name='Максимальная высота (см.)')
-
-
+    rate = models.DecimalField( verbose_name='Рейтинг товара', default=0, max_digits=2, decimal_places=1)
     # amount = models.IntegerField(default=0, verbose_name='Кол-во')  # Кол-во
     # min_amount = models.IntegerField(default=3) # Минимальное кол-во
     color = models.CharField(max_length=10, choices=VARIANTS, verbose_name='Цвет')  #
-    country = models.CharField(max_length=10, choices=COUNTRY, verbose_name='Страна')  #
+    country = models.CharField(max_length=10, choices=COUNTRY, verbose_name='Страна производства')  #
     detail = RichTextUploadingField(verbose_name='Детали')  # Детали (CKeditor)
     slug = models.SlugField(null=False, unique=True, verbose_name='Метка')
     status = models.CharField(max_length=10, choices=STATUS, verbose_name='Статус')
@@ -107,18 +105,29 @@ class Product(models.Model):
         else:
             return ""
 
+
+    def article(self):
+        if self.id is not None:
+            return f'{self.category_id:03}'+'/'+f'{self.id:03}'
+
+
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
     def avarege_review(self):
-        reviews = Comment.objects.filter(product=self, status=True).aggregate(avarage=Avg('rate'))
+        reviews = Review.objects.filter(product=self, status=True).aggregate(avarage=Avg('rate'))
         avg = 0
         if reviews["avarage"] is not None:
             avg = float(reviews["avarage"])
-        return avg
+            self.rate = avg
+            self.save(update_fields=["rate"])
+        if reviews["avarage"] is None:
+            self.rate = 0
+        return self.rate
+
 
     def count_review(self):
-        reviews = Comment.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        reviews = Review.objects.filter(product=self, status=True).aggregate(count=Count('id'))
         cnt_rev = 0
         if reviews["count"] is not None:
             cnt_rev = int(reviews["count"])
@@ -136,7 +145,7 @@ class Product(models.Model):
 
 class ProductFilter(django_filters.FilterSet):
     country = filters.MultipleChoiceFilter(field_name='country', choices=Product.COUNTRY, widget=CheckboxSelectMultiple)
-    variant = filters.MultipleChoiceFilter(field_name='variant', choices=Product.VARIANTS, widget=CheckboxSelectMultiple)
+    variant = filters.MultipleChoiceFilter(field_name='color', choices=Product.VARIANTS, widget=CheckboxSelectMultiple)
     price = filters.RangeFilter()
 
     class Meta:
@@ -165,7 +174,7 @@ class Images(models.Model):
         verbose_name_plural = 'Изображения доп.'
 
 
-class Comment(models.Model):
+class Review(models.Model):
     STATUS = (
         ('New', 'Новый'),
         ('True', 'Виден'),
@@ -191,7 +200,7 @@ class Comment(models.Model):
         verbose_name_plural = 'Отзывы'
 
 
-class CommentForm(ModelForm):
+class ReviewForm(ModelForm):
     class Meta:
-        model = Comment
+        model = Review
         fields = ['subject', 'comment', 'rate', ]

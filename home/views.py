@@ -8,7 +8,7 @@ from django.shortcuts import render
 # Create your views here.
 from home.forms import SearchForm, ProductFilterForm
 from home.models import CompanyInformation, ContactForm, ContactMessage, FAQ
-from product.models import Product, Category, Images, Comment, ProductFilter
+from product.models import Product, Category, Images, Review, ProductFilter
 
 
 def index(request):
@@ -58,29 +58,68 @@ def delivery(request):
     return HttpResponse("delivery")
 
 
+# def all_products(request):
+#     url = request.META.get('HTTP_REFERER')
+#     setting = CompanyInformation.objects.get(pk=1)
+#     product = Product.objects.all()
+#     category = Category.objects.all()
+#     # ordering = request.GET.get('orderby')
+#     # review = Review.objects.filter(status=True)
+#     # print(review)
+#     # if ordering is None:
+#     #     product = product.order_by('id')
+#     # else:
+#     #     product = product.order_by(ordering)
+#     order = request.GET.get('order', '-id')
+#     product = product.order_by(order)
+#     # if order == 'rate':
+#     #     product = review.order_by(order)
+#     list = []
+#     for rs in product:
+#
+#         list.append(rs.price)
+#
+#     min_price = min(list)
+#     max_price = max(list)
+#
+#     # feel = request.GET.get('feel')
+#     # product = product.filter(feel.qs)
+#
+#     # form = ProductFilterForm(request.GET)
+#     # if form.is_valid():
+#     #     if form.cleaned_data["ordering"]:
+#     #         product = product.order_by(form.cleaned_data["ordering"])
+#
+#     filter = ProductFilter(request.GET, queryset=product)
+#     paginator = Paginator(filter.qs, 4)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#     context = {
+#         'setting': setting,
+#         'product': product,
+#         'category': category,
+#         'page_obj': page_obj,
+#         'filter': filter,
+#         'min_price': min_price,
+#         'max_price': max_price,
+#         # 'ordering': ordering,
+#         # 'form': form,
+#     }
+#     return render(request, 'catalog.html', context)
+
+
 def all_products(request):
-    url = request.META.get('HTTP_REFERER')
     setting = CompanyInformation.objects.get(pk=1)
     product = Product.objects.all()
     category = Category.objects.all()
-    # ordering = request.GET.get('orderby')
-    #
-    # if ordering is None:
-    #     product = product.order_by('id')
-    # else:
-    #     product = product.order_by(ordering)
-
     order = request.GET.get('order', '-id')
     product = product.order_by(order)
-
-    # feel = request.GET.get('feel')
-    # product = product.filter(feel.qs)
-
-    # form = ProductFilterForm(request.GET)
-    # if form.is_valid():
-    #     if form.cleaned_data["ordering"]:
-    #         product = product.order_by(form.cleaned_data["ordering"])
-
+    list = []
+    for rs in product:
+        list.append(rs.price)
+    min_price = min(list)
+    max_price = max(list)
     filter = ProductFilter(request.GET, queryset=product)
     paginator = Paginator(filter.qs, 4)
     page_number = request.GET.get('page')
@@ -92,15 +131,11 @@ def all_products(request):
         'category': category,
         'page_obj': page_obj,
         'filter': filter,
-        # 'ordering': ordering,
-        # 'form': form,
+        'min_price': min_price,
+        'max_price': max_price,
+        'order': order,
     }
     return render(request, 'catalog.html', context)
-
-
-def sorted_product(self):
-    return None
-
 
 # def get_ordering(self):
 #     ordering = self.request.GET.get('orderby')
@@ -110,11 +145,23 @@ def sorted_product(self):
 
 
 def category_products(request, id, slug):
+
     category = Category.objects.all()
     product = Product.objects.filter(category_id=id)
+    if product.count() == 0:
+        product = Product.objects.filter(category__parent_id=id)
     catdata = Category.objects.get(pk=id)
     order = request.GET.get('order', '-id')
     product = product.order_by(order)
+    list = []
+    if product.count() == 0:
+        for rs in Product.objects.all():
+            list.append(rs.price)
+    else:
+        for rs in product:
+            list.append(rs.price)
+    min_price = min(list)
+    max_price = max(list)
     filter = ProductFilter(request.GET, queryset=product)
     paginator = Paginator(filter.qs, 4)
     page_number = request.GET.get('page')
@@ -125,19 +172,10 @@ def category_products(request, id, slug):
         'page_obj': page_obj,
         'filter': filter,
         'catdata': catdata,
-        # 'ordering': ordering,
-        # 'form': form,
+        'min_price': min_price,
+        'max_price': max_price,
+        'order': order,
     }
-
-    # category = Category.objects.all()
-    # catdata = Category.objects.get(pk=1)
-    # products = Product.objects.filter(category_id=id)
-    # print(products)
-    # context = {
-    #     'products': products,
-    #     'category': category,
-    #     'catdata': catdata,
-    # }
     return render(request, 'catalog.html', context)
 
 
@@ -145,10 +183,8 @@ def product_detail(request, id, slug):
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     catdata = product.category.slug
-    print(catdata)
-
     images = Images.objects.filter(product_id=id)
-    comments = Comment.objects.filter(product_id=id, status=True)
+    comments = Review.objects.filter(product_id=id, status=True)
     min_width = product.min_width
     min_height = product.min_height
     width_rome = min_width
@@ -156,10 +192,8 @@ def product_detail(request, id, slug):
     if request.method == 'POST':
         width_rome = int(request.POST['width_rome'])
         height_rome = int(request.POST['height_rome'])
-
     if catdata == 'rimskie-shtory':
-        product_price = int(
-            (product.price_rome_cornice * (width_rome / min_width)) + (product.price_rome_cloth * (height_rome / min_height)))
+        product_price = int((product.price_rome_cornice * (width_rome / min_width)) + (product.price_rome_cloth * (height_rome / min_height)))
     else:
         product_price = int(
             product.price * (width_rome / min_width))
@@ -222,12 +256,11 @@ def product_detail(request, id, slug):
 
 
 def search(request):
-    if request.method == 'POST':  # check post
+    if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            search = form.cleaned_data['search']  # get form input data
-            products = Product.objects.filter(
-                title__icontains=search)  # SELECT * FROM product WHERE title LIKE '%query%'
+            search = form.cleaned_data['search']
+            products = Product.objects.filter(title__icontains=search)
             category = Category.objects.all()
             context = {
                 'products': products,
@@ -256,8 +289,10 @@ def search(request):
 
 
 def faq(request):
+    category = Category.objects.all()
     faq = FAQ.objects.filter(status="True").order_by("ordernumber")
     context = {
         'faq': faq,
+        'category': category,
     }
     return render(request, 'faq.html', context)

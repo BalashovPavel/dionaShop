@@ -8,20 +8,23 @@
 
 {% block body %}
 
+    {% load home_tags %}
 
     <div class="catalog">
         <div class="sub_catalog">
-            <div class="logo_catalog"></div>
+            <div class="logo_catalog"><a href="/" class="logo_catalog"></a></div>
             <div class="filter_catalog">
                 {% load mptt_tags %}
                 <ul class="list_filter">
-
+                    <p class="title_filter">Категории</p>
                     {% recursetree category %}
                         <li>
                             {% if node.is_leaf_node %}
-                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
+                                <a style="text-decoration: underline"
+                                   href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
                             {% else %}
-                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
+                                <a style="text-decoration: underline"
+                                   href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
                             {% endif %}
                             {% if not node.is_leaf_node %}
                                 <ul class="children">
@@ -36,37 +39,65 @@
                     {% endrecursetree %}
 
                     <li>
-                        <a href="/all_products">Все товары</a>
+                        <a style="text-decoration: underline" href="/all_products">Все товары</a>
                     </li>
 
-
+                    <p class="title_filter">Фильтры</p>
                     <div class="checkbox">
 
 
                         <div class="multi_filters">
-
-                            {% load home_tags %}
                             {#<form action="{% url 'all_products' %}" method="get" id="sortProduct">#}
-                            <div class="">
-                                <span>Сортировка:</span>
-                                <ul style="list-style: none; padding: 0px">
-                                    <li><a href="?{% param_replace order='title' %}">По алфавиту (а-я)</a></li>
-                                    <li><a href="?{% param_replace order='-title' %}">По алфавиту (я-а)</a></li>
-                                    <li><a href="?{% param_replace order='price' %}">По возрастанию цены</a></li>
-                                    <li><a href="?{% param_replace order='-price' %}">По убыванию цены</a></li>
-                                    <li><a href="?{% param_replace order='-id' %}">Сначала новые</a></li>
-                                    <li><a href="?{% param_replace order='id' %}">Сначала старые</a></li>
+                            <div class="filters-price">
+                                <p class="filters-price__title">Цена:</p>
+                                <div class="filters-price__slider" id="range-slider"></div>
+                                <div class="filters-price__inputs">
+                                    <label class="filters-price__label">
+                                        <span class="filters-price__text">от</span>
+                                        <input type="number" min="{{ min_price }}" max="{{ max_price }}"
+                                               placeholder="{{ min_price }}" class="filters-price__input"
+                                               id="range-input-0">
+                                    </label>
 
-                                </ul>
-
+                                    <label class="filters-price__label">
+                                        <span class="filters-price__text">до</span>
+                                        <input type="number" min="{{ min_price }}" max="{{ max_price }}"
+                                               placeholder="{{ max_price }}" class="filters-price__input"
+                                               id="range-input-1">
+                                    </label>
+                                </div>
                             </div>
-
+                            <input id="min-price" type="hidden" value="{{ min_price }}" aria-hidden="true">
+                            <input id="max-price" type="hidden" value="{{ max_price }}" aria-hidden="true">
                             <form method="get">
-                                {#                                {{ form.as_ul }}#}
-                                {#                                <input type="submit"/>#}
-                                {{ filter.form.as_p }}
-                                <input type="submit"/>
+                                <div class="price-none">
+                                    {#                                {{ filter.form.as_ul }}#}
+                                    {% for field in filter.form %}
+                                        {{ field.errors }}
+
+                                        <p class="{{ field.id_for_label }}">
+                                            {#                                            {% if  field.id_for_label == 'id_price_0' %}#}
+                                            {#                                                style="display:None"#}
+                                            {#                                            {% endif %}>#}
+
+                                            {{ field.label_tag }} {{ field }}
+
+                                        </p>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="filter_submit"><input type="submit" value="Подтвердить"/></div>
                             </form>
+
+                            {#                            <script language="JavaScript">#}
+                            {#                                document.getElementById('id_price_0').placeholder = {{ min_price }}#}
+                            {#                                document.getElementById('id_price_1').value = {{ max_price }}#}
+                            {#                                document.getElementById('id_price_0').type = 'hidden';#}
+                            {#                                document.getElementById('id_price_1').type = 'hidden';#}
+                            {##}
+                            {#                            </script>#}
+
+
                             {#                            {% for obj in filter.qs %}#}
                             {#                                {{ obj.title }} - {{ obj.price }}<br/>#}
                             {#                            {% endfor %}#}
@@ -80,9 +111,77 @@
         <div class="main_catalog">
             {% if catdata is None %}
                 <div class="title_catalog">Каталог</div>
-            {% else  %}
+            {% else %}
                 <div class="title_catalog">{{ catdata.title }}</div>
             {% endif %}
+            <div class="list_sort">
+
+{#                <select onchange="window.location.href = this.options[this.selectedIndex].value" id="sortID">#}
+{#                    <option value="?{% param_replace order='-id' %}">По дате добавления</option>#}
+{#                    <option value="?{% param_replace order='price' %}" {% if order == 'price' %} selected {% endif %}>По#}
+{#                        возрастанию цены#}
+{#                    </option>#}
+{#                    <option value="?{% param_replace order='-price' %}" {% if order == '-price' %} selected {% endif %}>#}
+{#                        По убыванию цены#}
+{#                    </option>#}
+{#                    <option value="?{% param_replace order='-rate' %}" {% if order == '-rate' %} selected {% endif %}>По#}
+{#                        рейтингу#}
+{#                    </option>#}
+{#                </select>#}
+
+                <div class="select-catalog">
+                    <div class="select-catalog__header">
+                        <span class="select-catalog__current">{% if order == '-id' %}По дате
+                            добавления{% elif order == 'price' %}Дешевле{% elif order == '-price' %}
+                            Дороже{% elif order == '-rate' %}По рейтингу{% endif %}</span>
+                        <div class="select-catalog__icon">&blacktriangledown;</div>
+                    </div>
+                    <div class="select-catalog__body">
+                        <a href="?{% param_replace order='-id' %}">
+                            <div class="select-catalog__item">По дате добавления</div>
+                        </a>
+                        <a href="?{% param_replace order='price' %}">
+                            <div class="select-catalog__item">Дешевле</div>
+                        </a>
+                        <a href="?{% param_replace order='-price' %}">
+                            <div class="select-catalog__item">Дороже</div>
+                        </a>
+                        <a href="?{% param_replace order='-rate' %}">
+                            <div class="select-catalog__item">По рейтингу</div>
+                        </a>
+                    </div>
+                </div>
+
+{#                <script>#}
+{#                    let select = function () {#}
+{#                        let selectHeader = document.querySelectorAll('.select-catalog__header');#}
+{#                        let selectItem = document.querySelectorAll('.select-catalog__item');#}
+{##}
+{#                        selectHeader.forEach(item => {#}
+{#                            item.addEventListener('click', selectToggle)#}
+{#                        });#}
+{##}
+{#                        selectItem.forEach(item => {#}
+{#                            item.addEventListener('click', selectChoose)#}
+{#                        });#}
+{##}
+{#                        function selectToggle() {#}
+{#                            this.parentElement.classList.toggle('is-active')#}
+{#                        }#}
+{##}
+{#                        function selectChoose() {#}
+{#                            let text = this.innerText,#}
+{#                                select = this.closest('.select-catalog'),#}
+{#                                currentText = select.querySelector('.select-catalog__current');#}
+{#                            currentText.innerText = text;#}
+{#                            select.classList.remove('is-active')#}
+{#                        }#}
+{#                    }#}
+{##}
+{#                    select()#}
+{#                </script>#}
+
+            </div>
             <div class="cart_catalog">
 
 
@@ -99,13 +198,28 @@
                                 <div class="product-title">{{ prod.title }}</div>
 
                                 {% rateproduct prod.id as rate %}
-                                <div class="review-rating pull-right" id="avarege_review" style="float: none; position: relative; margin: auto; width: 86%;">
+                                <div class="review-rating pull-right" id="avarege_review"
+                                     style="float: none; position: relative; margin: auto; width: 86%;">
                                     <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>
-                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>
-                                    <span> ({{ rate | floatformat }})</span>
+                                    {#                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>#}
+                                    {#                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>#}
+                                    {#                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>#}
+                                    {#                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>#}
+                                    <span> {{ rate | floatformat }}</span>
+                                    <span></span>
+                                    <span>
+                                        {% if prod.count_review == 0 %}
+                                            (Нет отзывов)
+                                        {% elif prod.count_review == 1 %}
+                                            ({{ prod.count_review }} отзыв)
+                                        {% elif prod.count_review > 1 %}
+                                            {% if prod.count_review < 5 %}
+                                                ({{ prod.count_review }} отзыва)
+                                            {% else %}
+                                                ({{ prod.count_review }} отзывов)
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
                                 </div>
                                 <div class="product-price">{{ prod.price }} руб.</div>
                             </a>
@@ -126,9 +240,10 @@
                         <nav class="list-pages">
                             <ul>
                                 {% if page_obj.has_previous %}
-                                    <a href="?{% param_replace page=1 %}">&laquo; Первая</a>
-                                    <span>|</span>
-                                    <a href="?{% param_replace page=page_obj.previous_page_number %}">Предыдущая</a>
+                                    <a class="page-selector" href="?{% param_replace page=1 %}">&laquo; Первая</a>
+                                    <span class="page-line">|</span>
+                                    <a class="page-selector"
+                                       href="?{% param_replace page=page_obj.previous_page_number %}">Предыдущая</a>
                                 {% endif %}
 
                                 {% for p in page_obj.paginator.get_elided_page_range %}
@@ -143,9 +258,10 @@
 
 
                                 {% if page_obj.has_next %}
-                                    <a href="?{% param_replace page=page_obj.next_page_number %}">Следующая</a>
-                                    <span>|</span>
-                                    <a href="?{% param_replace page=page_obj.paginator.num_pages %}">Последняя &raquo;</a>
+                                    <a class="page-selector" href="?{% param_replace page=page_obj.next_page_number %}">Следующая</a>
+                                    <span class="page-line">|</span>
+                                    <a class="page-selector"
+                                       href="?{% param_replace page=page_obj.paginator.num_pages %}">Последняя &raquo;</a>
                                 {% endif %}
                             </ul>
                         </nav>

@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from order.models import Order, OrderProduct
-from product.models import Category, Comment
+from product.models import Category, Review
 from user.forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
 from user.models import UserProfile
 
@@ -34,13 +34,10 @@ def login_form(request):
             login(request, user)
             current_user = request.user
             userprofile = UserProfile.objects.get(user_id=current_user.id)
-
             return HttpResponseRedirect("/")
         else:
             messages.warning(request, "Введён неверный Логин или Пароль")
-
             return HttpResponseRedirect("/login")
-
     context = {
         'category': category
     }
@@ -53,28 +50,25 @@ def logout_func(request):
 
 
 def signup_form(request):
-
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()  # completed sign up
+            form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            # Create data in profile table for user
             current_user = request.user
             data = UserProfile()
             data.user_id = current_user.id
             data.email = current_user.email
             # data.image="images/users/user.png"
             data.save()
-            messages.success(request, 'Your account has been created!')
+            messages.success(request, 'Ваш аккаунт был создан!')
             return HttpResponseRedirect('/')
         else:
             messages.warning(request, form.errors)
             return HttpResponseRedirect('/signup')
-
     form = SignUpForm()
     category = Category.objects.all()
     context = {
@@ -86,16 +80,17 @@ def signup_form(request):
 
 @login_required(login_url='/login')
 def user_profile_update(request):
+    category = Category.objects.all()
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)  # request.user is user  data
+        user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your account has been updated!')
+            messages.success(request, 'Ваш профиль успешно изменён!')
             return HttpResponseRedirect('/user')
     else:
-        category = Category.objects.all()
+
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(
             instance=request.user.userprofile)  # "userprofile" model -> OneToOneField relatinon with user
@@ -107,20 +102,21 @@ def user_profile_update(request):
         return render(request, 'user_profile_update.html', context)
 
 
-@login_required(login_url='/login')  # Check login
+@login_required(login_url='/login')
 def user_password_update(request):
+    category = Category.objects.all()
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Ваш пароль успешно изменён!')
             return HttpResponseRedirect('/user')
         else:
             messages.error(request, 'Ошибка ввода пароля.<br>')
             return HttpResponseRedirect('/user/password')
     else:
-        category = Category.objects.all()
+
         form = PasswordChangeForm(request.user)
         return render(request, 'user_password_update.html', {'form': form, 'category': category })
 
@@ -176,7 +172,7 @@ def user_order_product_detail(request, id, oid):
 
 def user_comments(request):
     current_user = request.user
-    comments = Comment.objects.filter(user_id=current_user.id)
+    comments = Review.objects.filter(user_id=current_user.id)
     category = Category.objects.all()
     context = {
         'comments': comments,
@@ -187,6 +183,23 @@ def user_comments(request):
 @login_required(login_url='/login') # Check login
 def user_deletecomment(request,id):
     current_user = request.user
-    Comment.objects.filter(id=id, user_id=current_user.id).delete()
+    Review.objects.filter(id=id, user_id=current_user.id).delete()
     messages.success(request, 'Отзыв удалён')
     return HttpResponseRedirect('/user/comments')
+
+
+def PasswordResetView(request):
+    # PasswordResetView(request)
+    return None
+
+
+def PasswordResetDoneView(request):
+    return None
+
+
+def PasswordResetConfirmView(request):
+    return None
+
+
+def PasswordResetCompleteView(request):
+    return None

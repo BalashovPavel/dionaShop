@@ -78,10 +78,11 @@
                                 <form action="{% url 'changefromcart' id=rs.id%}" method="post">
                                     {% csrf_token %}
                                     <td class="b-count">
-                                        <input class="input" type="number" min="1" name="quantity_in_shopcart" value="{{ rs.quantity }}">
-                                        <input type="submit" value="Изменить кол-во">
+                                        <input id="jopa" class="input" type="number" min="1" name="quantity_in_shopcart" value="{{ rs.quantity }}" onchange="submit();">
+{#                                        <input type="submit" value="ОК">#}
                                     </td>
                                 </form>
+
                                 <td class="b-total">
                                     <span id="price">{{ rs.amount }} <i class="fa fa-rub" aria-hidden="true"></i></span>
                                 </td>

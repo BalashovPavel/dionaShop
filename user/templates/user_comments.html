@@ -2,27 +2,29 @@
 
 {% load static %}
 
-{% block title %} Ваши комментарии {% endblock title %}
+{% block title %}Отзывы{% endblock title %}
 
 {% block header %} {% include 'header.html' %} {% endblock header %} <!-- подсасывание из header.html -->
 
 {% block body %}
 
-    <div id="breadcrumb">
-        <div class="card-wrapper">
-            <ul class="breadcrumb" style="display: flex">
-                <li><a href="/">Главная</a></li>
-                <li class="">/</li>
-                <li class="">Профиль</li>
-            </ul>
-        </div>
-    </div>
+
 
 
 
     <div class="section">
 
+
         <div class="user_profil-wrapper">
+            <div id="breadcrumb">
+                <div class="card-wrapper">
+                    <ul class="breadcrumb" style="display: flex">
+                        <li><a href="/">Главная</a></li>
+                        <li class="">/</li>
+                        <li class="">Профиль</li>
+                    </ul>
+                </div>
+            </div>
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}" role="alert">
@@ -45,7 +47,7 @@
 
 
                         <div class="user_title">
-                            <p>Ваши комментарии</p>
+                            <p>Ваши отзывы</p>
                         </div>
 
                         <table class="shopcart_product_table">
@@ -69,14 +71,9 @@
                                     </td>
                                     <td class="b-title">
                                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{ rs.product }}</a>
-                                        <ul>
-                                            <li><span>Ширина: 80</span></li>
-                                            <li><span>Высота: 200</span></li>
-                                            <li><span>Подкладка: Без подкладки</span></li>
-                                        </ul>
                                     </td>
                                     <td class="b-price">
-                                        {{ rs.create_at | date:"d-m-Y"}}
+                                        {{ rs.create_at | date:"d-m-Y" }}
                                     </td>
                                     <td class="b-comment">
                                         {{ rs.comment }}
@@ -84,7 +81,7 @@
                                     <td class="b-total">
                                         {{ rs.rate }}
                                     </td>
-                                    <td class="b-delete">
+                                    <td class="h-delete__profile">
                                         <a class="primary-btn" href="/user/deletecomment/{{ rs.id }}"
                                            onclick="return confirm('Ваш отзыв будет удалён! Вы уверены?')"> Удалить </a>
                                     </td>

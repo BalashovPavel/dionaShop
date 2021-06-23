@@ -1,4 +1,5 @@
 {% extends 'homebase.html' %}
+{% load home_tags %}
 
 {% load static %}
 
@@ -10,104 +11,8 @@
 
 
     <div class="catalog">
-        <div class="sub_catalog">
-            <div class="logo_catalog"></div>
-            <div class="filter_catalog">
-                {% load mptt_tags %}
-                <ul class="list_filter">
 
-                    {% recursetree category %}
-                        <li>
-                            {% if node.is_leaf_node %}
-                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
-                            {% else %}
-                                <a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a>
-                            {% endif %}
-                            {% if not node.is_leaf_node %}
-                                <ul class="children">
-                                    {{ children }}
-                                </ul>
-                            {% endif %}
-                        </li>
-                        {#                        <li><a href="">Ткани</a></li>#}
-                        {#                        <li><a href="">Карнизы</a></li>#}
-                        {#                        <li><a href="">Аксессуары</a></li>#}
-                        <!-- <li><a href=""></a></li> -->
-                    {% endrecursetree %}
-
-
-                    <div class="checkbox">
-                        <div class="multi_filters">
-
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Белый цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="white" id="white" onchange="fun1()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Чёрный цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="black" onchange="fun1()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Зелённый цвет</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="green" onchange="fun1()">
-                                </span>
-                                </label>
-                            </div>
-
-
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Турция</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="turkey" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Китай</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="china" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-                            <div class="filter">
-                                <label for="">
-                                <span class="">
-                                    <span>Россия</span>
-                                </span>
-                                    <span>
-                                    <input type="checkbox" name="" id="russia" onchange="fun2()">
-                                </span>
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                </ul>
-            </div>
-        </div>
-        <div class="main_catalog">
+        <div class="main_catalog" style="margin: 0 auto;">
             <div class="title_catalog">Результат поиска "{{ search }}"</div>
             <div class="cart_catalog">
 
@@ -122,6 +27,31 @@
                                     <img src="{{ prod.image.url }}" alt="">
                                 </div>
                                 <div class="product-title">{{ prod.title }}</div>
+
+                                {% rateproduct prod.id as rate %}
+                                <div class="review-rating pull-right" id="avarege_review"
+                                     style="float: none; position: relative; margin: auto; width: 86%;">
+                                    <i class="fa fa-star{% if rate < 1 %}-o empty{% endif %}"></i>
+{#                                    <i class="fa fa-star{% if rate < 1.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 2.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 3.6 %}-o empty{% endif %}"></i>#}
+{#                                    <i class="fa fa-star{% if rate < 4.6 %}-o empty{% endif %}"></i>#}
+                                    <span > {{ rate | floatformat }}</span>
+                                    <span></span>
+                                    <span >
+                                        {% if prod.count_review == 0 %}
+                                            (Нет отзывов)
+                                        {% elif prod.count_review == 1 %}
+                                            ({{ prod.count_review }} отзыв)
+                                        {% elif prod.count_review > 1 %}
+                                            {% if prod.count_review < 5 %}
+                                                ({{ prod.count_review }} отзыва)
+                                            {% else %}
+                                                ({{ prod.count_review }} отзывов)
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </div>
                                 <div class="product-price">{{ prod.price }} руб.</div>
                             </a>
                         </li>

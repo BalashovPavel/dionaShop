@@ -44,10 +44,10 @@ buttonLeft.addEventListener('click', function () {
 buttonRight.addEventListener('click', function () {
     for (var i = 0; i < thumbnails.length; i++) {
         /* alert(thumbnails[i].className); */
-        if (thumbnails[i].className == "thumbnail active") {
+        if (thumbnails[i].className === "thumbnail active") {
             /* alert("не jopa") */
             thumbnails[i].classList.remove('active')
-            if (thumbnails[i] != thumbnails[thumbnails.length - 1]) {
+            if (thumbnails[i] !== thumbnails[thumbnails.length - 1]) {
                 thumbnails[i + 1].classList.add('active')
                 document.getElementById('featured').src = thumbnails[i + 1].src
             }
@@ -125,6 +125,10 @@ $('#result_height').bind('input change', function () {
     var data = $('#result_height').val();
     $('#range_height').val(data);
 });
+
+
+
+
 //
 // $('#plus_height').click(function () {
 //     $('#range_height').val(parseInt($('#range_height').val()) + 1);
@@ -152,5 +156,9 @@ $('#result_height').bind('input change', function () {
 //     }
 //
 // })
+
+
+
+
 
 

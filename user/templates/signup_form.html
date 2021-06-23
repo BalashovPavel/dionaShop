@@ -37,7 +37,7 @@
                     <div class="tabs__content">
                         <div class="tabs__pane tabs__pane_show" id="content-1">
 
-                            <form method="post">
+                            <form method="post" class="signup_form">
                                 {% csrf_token %}
                                 {% for field in form %}
                                     <div class="login-input">
@@ -51,9 +51,10 @@
                                         {% endfor %}
                                     </div>
                                 {% endfor %}
-                                <p>
+                                <div class="login-input">
                                     <input id="submit" value="Зарегистрироваться" type="submit">
-                                </p>
+                                </div>
+                                <div style=" width: 100%; display: flex; justify-content: center;"><a href="/login">Войти</a></div>
                             </form>
                             {#                                <div class="tab-title">Регистрация</div>#}
                             {#                                <div class="tab-text">#}

@@ -1,0 +1,89 @@
+/*!* Chrome, Safari, Edge, Opera *!*/
+/*.filters-price input::-webkit-outer-spin-button,*/
+/*.filters-price input::-webkit-inner-spin-button {*/
+/*  -webkit-appearance: none;*/
+/*  margin: 0;*/
+/*}*/
+
+/*!* Firefox *!*/
+/*.filters-price input[type=number] {*/
+/*  -moz-appearance: textfield;*/
+/*}*/
+
+.filters-price{
+    margin-bottom: 17px;
+}
+
+.filters-price__inputs{
+    display: flex;
+    justify-content: space-around;
+}
+
+.filters-price__label{
+    display: flex;
+    text-align: center;
+    border: solid 1px #d9d9d9;
+    border-radius: 4px;
+    padding: 0 2px;
+
+}
+
+.filters-price__input{
+    border: none;
+    align-self: center;
+    font-size: 14px;
+    width: 50px;
+    height: 25px;
+    color: #262626;
+    outline: none;
+}
+
+.filters-price__text{
+    align-self: center;
+    font-size: 14px;
+    color: #808080;
+    margin-right: 3px;
+}
+
+.filters-price__slider{
+    margin: 14px 0;
+}
+
+.noUi-target{
+    cursor: pointer;
+    background: #f5f5f5;
+    border-radius: 10px;
+    border: solid .5px #bcb9b4;
+    height: 8px;
+    width: calc(100% - 20px);
+    margin: 15px auto;
+}
+
+.noUi-connect{
+    background: #91877a;
+    cursor: pointer;
+}
+
+.noUi-handle::after,
+.noUi-handle::before{
+    display: none;
+}
+
+.noUi-handle{
+    cursor: pointer;
+    border-radius: 100%;
+    background: #f5f5f5;
+    border: solid 1px #91877a;
+    box-shadow: none;
+}
+
+.noUi-horizontal .noUi-handle{
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    top: -6.5px;
+}
+
+.filters-price__title{
+    font-size: 15px;
+}
